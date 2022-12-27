@@ -15,7 +15,7 @@ const setUpDB = (drop) => {
         In this case the primary key from user will be a foreign key
         in video.
         */
-            thread.hasMany(posts);
+            // thread.hasMany(posts);
             mySQLDB.sync({ // Creates table if none exists
                 force: drop
             }).then(() => {

@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../config/DBConfig');
 
-const Message = db.define('message',{
+const Post = db.define('post',{
     post:{
         type:Sequelize.STRING(2000)
     },
@@ -21,4 +21,4 @@ const Message = db.define('message',{
     },
 })
 
-module.exports = Message;
+module.exports = Post;

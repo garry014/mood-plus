@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const db = require('../config/DBConfig');
 
-const Chat = db.define('chat',{
+const Thread = db.define('thread',{
     title:{
         type:Sequelize.STRING
     },
@@ -28,4 +28,4 @@ const Chat = db.define('chat',{
     },
 });
 
-module.exports = Chat;
+module.exports = Thread;

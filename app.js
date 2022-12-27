@@ -82,9 +82,13 @@ app.use(function (req, res, next) {
 * Defines that any root URL with '/' that Node JS receives request from, for eg. http://localhost:5000/, will be handled by
 * mainRoute which was defined earlier to point to routes/main.js
 * */
-app.use('/', mainRoute); // mainRoute is declared to point to routes/main.js
-// This route maps the root URL to any path defined in main.js
+app.use('/', mainRoute);
 app.use('/forum', forumRoute); // Add this line
+
+// Bring in database connection
+const moodplusDB = require('./config/DBConnection');
+// Connects to MySQL database
+moodplusDB.setUpDB(false); 
 
 /*
 * Creates a unknown port 5000 for express server since we don't want our app to clash with well known
