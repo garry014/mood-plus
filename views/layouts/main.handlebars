@@ -30,6 +30,9 @@
 <body class="preload home3">
     {{>_navbar}}
 
+    {{>_flashmsg}} {{!-- views/partials/_flashmsg.handlebars --}}
+    {{>_msg}} {{!-- views/partials/_msg.handlebars --}}
+    {{>_errors}}
     {{{body}}}
     <!--================================
     END CALL TO ACTION AREA

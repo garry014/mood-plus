@@ -90,6 +90,21 @@ const moodplusDB = require('./config/DBConnection');
 // Connects to MySQL database
 moodplusDB.setUpDB(false); 
 
+app.use(function (req, res, next) {
+	res.locals.success_msg = req.flash('success_msg');
+	res.locals.error_msg = req.flash('error_msg');
+	res.locals.error = req.flash('error');
+	res.locals.user = req.user || null;
+	next();
+});
+
+// Handle 404 error page - Keep this as a last route
+app.use(function (req, res, next) {
+	res.status(404);
+	res.render('404',  { title: "Page not found" });
+});
+// No routes below this, otherwise it will get overwritten.
+
 /*
 * Creates a unknown port 5000 for express server since we don't want our app to clash with well known
 * ports such as 80 or 8080.

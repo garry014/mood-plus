@@ -39,9 +39,6 @@ router.post('/create_thread', (req, res) => {
             timestamp: getToday(),
         })
         .then((thread) =>{
-            // Send res.locals.photo, id
-            const data = {threadid: thread.id};
-            // start_newchat(data);
             res.redirect('/c/inbox/'+thread.id);
         })
         .catch(err => {
@@ -56,8 +53,26 @@ router.post('/create_thread', (req, res) => {
 });
 
 // View Thread
-router.get('/view_thread', (req, res) => {
-    res.render('forum/view_thread')
+router.get('/view_thread/:id', (req, res) => {
+    Thread.findOne({
+        where: {
+            id: req.params.id
+        },
+        raw: true
+    })
+    .then((threadDetails) => {
+        if (threadDetails) {
+            console.log(threadDetails)
+            res.render('forum/view_thread', {
+                title: "View thread - " + threadDetails.title,
+                id: req.params.id,
+                threadDetails: threadDetails
+            });
+        }
+        else {
+            res.redirect('/404');
+        }
+    })
 });
 
 function getToday(){
