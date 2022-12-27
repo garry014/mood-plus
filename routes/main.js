@@ -3,11 +3,10 @@ const router = express.Router();
 
 const alertMessage = require('../helpers/messenger');
 
-
-
+// Home Page
 router.get('/', (req, res) => {
-	const title = 'Video Jotter';
-	res.render('index', { title: title }) // renders views/index.handlebars
+	const title = 'Mood+';
+	res.render('index', { title: title })
 });
 
 // Logout User

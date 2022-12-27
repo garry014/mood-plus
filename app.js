@@ -21,7 +21,7 @@ const FlashMessenger = require('flash-messenger'); // add this require
 * will be called based on the HTTP request and URL.
 */
 const mainRoute = require('./routes/main');
-const userRoute = require('./routes/user'); // Add this line
+const forumRoute = require('./routes/forum'); // Add this line
 
 
 /*
@@ -84,7 +84,7 @@ app.use(function (req, res, next) {
 * */
 app.use('/', mainRoute); // mainRoute is declared to point to routes/main.js
 // This route maps the root URL to any path defined in main.js
-app.use('/user', userRoute); // Add this line
+app.use('/forum', forumRoute); // Add this line
 
 /*
 * Creates a unknown port 5000 for express server since we don't want our app to clash with well known
