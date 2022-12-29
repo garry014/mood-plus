@@ -17,10 +17,15 @@ const Thread = db.define('thread',{
     timestamp:{
         type: Sequelize.STRING
     },
-    likes: {
-        type: Sequelize.DataTypes.INTEGER,
-        allowNull: false,
-        defaultValue : 0
+    editTime:{
+        type: Sequelize.STRING
+    },
+    editedBy:{
+        type: Sequelize.STRING
+    },
+    isHidden: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
     },
     isPinned: {
         type: Sequelize.BOOLEAN,

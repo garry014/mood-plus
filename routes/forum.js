@@ -1,6 +1,6 @@
 // DB Table Connections
 const Thread = require('../models/Thread');
-// const Post = require('../models/Post');
+const Post = require('../models/Post');
 
 // Handlebars Helpers
 const alertMessage = require('../helpers/messenger');
@@ -12,7 +12,7 @@ const router = express.Router();
 
 // Main Forums page
 router.get('/', (req, res) => {
-    res.render('forum/main_page')
+    res.render('forum/main_page', { title: "Let's talk about mental health" })
 });
 
 // GET: Create Thread
@@ -28,7 +28,7 @@ router.post('/create_thread', (req, res) => {
 		errors.push({msg: 'Please keep your post to 2000 characters or less.'})
 	}
 
-    const username = "admin";
+    const username = "ducker";
     // if login
     if (username){
         Thread.create({
@@ -39,7 +39,7 @@ router.post('/create_thread', (req, res) => {
             timestamp: getToday(),
         })
         .then((thread) =>{
-            res.redirect('/c/inbox/'+thread.id);
+            res.redirect('/forum/view_thread/'+thread.id);
         })
         .catch(err => {
             console.error('Unable to connect to the database:', err);
@@ -62,17 +62,200 @@ router.get('/view_thread/:id', (req, res) => {
     })
     .then((threadDetails) => {
         if (threadDetails) {
-            console.log(threadDetails)
-            res.render('forum/view_thread', {
-                title: "View thread - " + threadDetails.title,
-                id: req.params.id,
-                threadDetails: threadDetails
-            });
+            Post.findAll({
+                where: { threadId: req.params.id, },
+                raw: true
+            })
+            .then((posts) => {
+                console.log(posts);
+                res.render('forum/view_thread', {
+                    title: "View thread - " + threadDetails.title,
+                    id: req.params.id,
+                    threadDetails: threadDetails,
+                    posts: posts
+                });
+            })
         }
         else {
             res.redirect('/404');
         }
     })
+});
+
+// GET: Update Thread
+router.get('/update_thread/:id', (req, res) => {
+    const username = "admin"
+    Thread.findOne({
+        where: {
+            id: req.params.id
+        },
+        raw: true
+    })
+    .then((threadDetails) => {
+        if (threadDetails) {
+            if (threadDetails.username == username || username == "admin"){ //res.locals.user.username
+                res.render('forum/update_thread', {
+                    title: "Update thread",
+                    threadDetails: threadDetails
+                });
+            }
+            else {
+                alertMessage(res, 'danger', 'The thread do not exists.', 'fas fa-exclamation-triangle', true);
+                res.redirect('back');
+            }
+            
+        }
+        else {
+            res.redirect('/404');
+        }
+    })
+});
+
+// PUT: Update Thread
+router.post('/update_thread/:id', (req, res) => {
+	let { post } = req.body;
+    let errors = [];
+
+    const username = "Admin"
+
+	if (post.length > 2000){
+		errors.push({msg: 'Please keep your review to 2000 characters or less.'})
+	}
+
+	if (errors.length == 0) {
+		Thread.update({
+            post: post,
+            editTime: getToday(),
+            editedBy: username
+        }, {
+            where: { id: req.params.id }
+        })
+            .catch(err => console.log(err));
+        alertMessage(res, 'info', 'Successfully updated thread.', 'far fa-laugh-wink', true);
+        res.redirect('/forum/view_thread/' + req.params.id);
+	}
+});
+
+// Delete Thread
+router.get('/delete_thread/:id', (req, res) => {
+    const username = "admin"
+	Thread.findOne({
+		where: {
+			id: req.params.id
+		},
+		raw: true
+	})
+    .then((threads) => {
+        if (threads && (threads.username == username || username == "admin")) {
+            Post.destroy({
+                where: {
+                    threadId: req.params.id
+                }
+            })
+            .then(() => {
+                Thread.destroy({
+                    where: {
+                        id: req.params.id
+                    }
+                })
+                    .then(() => {
+                        alertMessage(res, 'info', 'Successfully deleted thread.', 'far fa-trash-alt', true);
+                        res.redirect('/forum');
+                    })
+            }) 
+        }
+        else {
+            alertMessage(res, 'danger', 'You do not have permission to delete this review.', 'fas fa-exclamation-triangle', true);
+            res.redirect('/404');
+        }
+    })
+});
+
+// POST: Create Post
+router.post('/view_thread/:id', (req, res) => {
+    let { post } = req.body;
+
+    if (post.length > 2000){
+		errors.push({msg: 'Please keep your post to 2000 characters or less.'})
+	}
+
+    const username = "ducker";
+    // if login
+    if (username){
+        Post.create({
+            post: post,
+            username: username,
+            timestamp: getToday(),
+            threadId: req.params.id
+        })
+        .then(() =>{
+            res.redirect('/forum/view_thread/'+req.params.id);
+        })
+        .catch(err => {
+            console.error('Unable to connect to the database:', err);
+        });
+    }
+    else {
+        alertMessage(res, 'danger', 'Access Denied, please login to proceed', 'fas fa-exclamation-triangle', true);
+        res.redirect('back');
+    }
+
+});
+
+// GET: Update Post
+router.get('/update_post/:id', (req, res) => {
+    const username = "admin"
+    Post.findOne({
+        where: {
+            id: req.params.id
+        },
+        raw: true
+    })
+    .then((postDetails) => {
+        if (postDetails) {
+            console.log(postDetails)
+            if (postDetails.username == username || username == "admin"){ //res.locals.user.username
+                res.render('forum/update_post', {
+                    title: "Update post",
+                    postDetails: postDetails
+                });
+            }
+            else {
+                alertMessage(res, 'danger', 'The post do not exists.', 'fas fa-exclamation-triangle', true);
+                res.redirect('back');
+            }
+            
+        }
+        else {
+            res.redirect('/404');
+        }
+    })
+});
+
+// PUT: Update Post
+router.post('/update_post/:id', (req, res) => {
+	let { post, threadId } = req.body;
+    let errors = [];
+
+    const username = "Admin"
+
+	if (post.length > 2000){
+		errors.push({msg: 'Please keep your post to 2000 characters or less.'})
+	}
+    console.log("hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee " + threadId)
+
+	if (errors.length == 0) {
+		Post.update({
+            post: post,
+            editTime: getToday(),
+            editedBy: username
+        }, {
+            where: { id: req.params.id }
+        })
+            .catch(err => console.log(err));
+        alertMessage(res, 'info', 'Successfully updated thread.', 'far fa-laugh-wink', true);
+        res.redirect('/forum/view_thread/' + threadId);
+	}
 });
 
 function getToday(){

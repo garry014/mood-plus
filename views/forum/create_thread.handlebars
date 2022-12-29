@@ -15,7 +15,7 @@
                         </li>
                     </ul>
                 </div>
-                <h1 class="page-title">Support Forum Form</h1>
+                <h1 class="page-title">Create Thread</h1>
             </div>
             <!-- end /.col-md-12 -->
         </div>
@@ -35,16 +35,15 @@
         <div class="row">
             <div class="col-lg-8">
                 <div class="question-form cardify p-4">
-                    <form action="/forum/create_thread" method="POST">
+                    <form id="threadform"  method="POST"> <!-- action="/forum/create_thread" -->
                         <div class="form-group">
-                            <label>Question Title</label>
-                            <input name="title" type="text" placeholder="Enter title here" required>
+                            <label>Title</label>
+                            <input name="title" type="text" placeholder="Enter title here">
                         </div>
                         <div class="form-group">
                             <label>Description</label>
-                            <textarea id="post" name="post">{{post}}</textarea>
-                            <span style="float:right">Maximum characters: <span id="dcount">0</span>/2000</span> <span id="maxCountReached" style="color:red; display: none;">(Max characters reached!)</span>
-                            {{!-- <div id="trumbowyg-demo"></div> --}}
+                            <textarea id="post" name="post" style="display:none;">{{post}}</textarea>
+                            <div id="trumbowyg-demo"></div>
                         </div>
                         <div class="form-group">
                             <label>Category</label>
@@ -72,7 +71,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="btn btn--md btn-primary">Submit Request</button>
+                            <button type="button" onclick="submitForm()" class="btn btn--md btn-primary">Post new thread</button>
                         </div>
                     </form>
                 </div><!-- ends: .question-form -->
@@ -187,24 +186,14 @@
 =================================-->
 
 <script>
-    var post = document.getElementById('post');
-
-    window.onload = function() {
-        checkpost();
-    }
-
-    post.addEventListener('keyup', function(e){
-        checkpost();
+    var trumbowygPost;
+    window.addEventListener("load", (event) => {
+        trumbowygPost = document.querySelector('textarea[name="trumbowyg-demo"]');
     });
-
-    function checkpost(){
-        if (post.value.length > 2000) {
-            post.value = post.value.slice(0, 2000);
-            maxCountReached.style.display= '';
-        }
-        else {
-            maxCountReached.style.display= 'none';
-        }
-        dcount.innerText = post.value.length;
+    
+    function submitForm(){
+        var post = document.getElementById('post');
+        post.value = trumbowygPost.value;
+        document.getElementById('threadform').submit();
     }
 </script>
