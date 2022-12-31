@@ -12,7 +12,26 @@ const router = express.Router();
 
 // Main Forums page
 router.get('/', (req, res) => {
-    res.render('forum/main_page', { title: "Let's talk about mental health" })
+    // Thread Pagination - /forum?page=2
+    var PAGE;
+    if (!req.query.page) PAGE = 0;
+    else PAGE = parseInt(req.query.page) - 1;
+	const LIMIT = 6;
+
+    Thread.findAll({ 
+        isHidden: false, 
+        offset: PAGE*6,
+        limit: LIMIT,
+        raw: true
+    })
+    .then((threads) => {
+        console.log(threads)
+        res.render('forum/main_page', { title: "Let's talk about mental health" })
+    })
+    .catch((error) => {
+        console.error(error);
+    })
+    
 });
 
 // GET: Create Thread
@@ -53,9 +72,11 @@ router.post('/create_thread', (req, res) => {
 });
 
 // View Thread
-router.get('/view_thread/:id/:page', (req, res) => {
-    // Comments Page
-    const PAGE = parseInt(req.params.page) - 1;
+router.get('/view_thread/:id', (req, res) => {
+    // Comments Pagination
+    var PAGE;
+    if (!req.query.page) PAGE = 0;
+    else PAGE = parseInt(req.query.page) - 1;
 	const LIMIT = 6; 
 
     Thread.findOne({
@@ -73,29 +94,15 @@ router.get('/view_thread/:id/:page', (req, res) => {
                 raw: true
             })
             .then((posts) => {
-                console.log((posts.rows.length%6 || 0));
-                console.log(posts)
-                var min_item = (PAGE*LIMIT)+1;
-                var max_item;
-                if (posts.rows.length%6 == 0){
-                    max_item = ((PAGE+1)*LIMIT);
-                }
-                else {
-                    max_item = ((PAGE+1)*LIMIT) - (LIMIT - (posts.rows.length%6));
-                }
-
-                var totalpage = Math.ceil(posts.count/LIMIT);
                 res.render('forum/view_thread', {
                     title: "View thread - " + threadDetails.title,
                     id: req.params.id,
                     threadDetails: threadDetails,
                     posts: posts.rows,
-                    min_item: min_item,
-                    max_item: max_item,
-                    totalpage: totalpage,
+                    postCount: posts.count,
                     pagination: {
-                        page: req.params.page, // The current page the user is on
-                        pageCount: totalpage  // The total number of available pages
+                        page: PAGE+1, // The current page the user is on
+                        pageCount: Math.ceil(posts.count/LIMIT)  // The total number of available pages
                     }
                 });
             })

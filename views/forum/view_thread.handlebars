@@ -134,13 +134,13 @@
                                 <nav class="navigation pagination " role="navigation">
                                     <div class="nav-links">
                                         {{#paginate pagination type="previous"}}
-                                        {{#unless disabled}}<a class="prev page-numbers" href="/forum/view_thread/{{../threadDetails.id}}/{{n}}"><span class="lnr lnr-arrow-left"></span></a>{{/unless}}
+                                        {{#unless disabled}}<a class="prev page-numbers" href="/forum/view_thread/{{../threadDetails.id}}?page={{n}}"><span class="lnr lnr-arrow-left"></span></a>{{/unless}}
                                         {{/paginate}}
                                         {{#paginate pagination type="middle" limit=totalpage}}
-                                        <a class="page-numbers {{#if active}}current{{/if}}" href="/forum/view_thread/{{../threadDetails.id}}/{{n}}">{{n}}</a>
+                                        <a class="page-numbers {{#if active}}current{{/if}}" href="/forum/view_thread/{{../threadDetails.id}}?page={{n}}">{{n}}</a>
                                         {{/paginate}}
                                         {{#paginate pagination type="next"}}
-                                        {{#unless disabled}}<a class="next page-numbers" href="/forum/view_thread/{{../threadDetails.id}}/{{n}}"><span class="lnr lnr-arrow-right"></span></a>{{/unless}}
+                                        {{#unless disabled}}<a class="next page-numbers" href="/forum/view_thread/{{../threadDetails.id}}?page={{n}}"><span class="lnr lnr-arrow-right"></span></a>{{/unless}}
                                         {{/paginate}}
                                     </div>
                                 </nav>
