@@ -46,14 +46,18 @@ router.post('/create_thread', (req, res) => {
         });
     }
     else {
-        alertMessage(res, 'danger', 'Access Denied, please login to proceed', 'fas fa-exclamation-triangle', true);
+        alertMessage(res, 'danger', 'Access Denied, please login to proceed', 'lnr lnr-cross', true);
         res.redirect('back');
     }
 
 });
 
 // View Thread
-router.get('/view_thread/:id', (req, res) => {
+router.get('/view_thread/:id/:page', (req, res) => {
+    // Comments Page
+    const PAGE = parseInt(req.params.page) - 1;
+	const LIMIT = 6; 
+
     Thread.findOne({
         where: {
             id: req.params.id
@@ -62,17 +66,37 @@ router.get('/view_thread/:id', (req, res) => {
     })
     .then((threadDetails) => {
         if (threadDetails) {
-            Post.findAll({
+            Post.findAndCountAll({
                 where: { threadId: req.params.id, },
+                offset: PAGE*6,
+		        limit: LIMIT,
                 raw: true
             })
             .then((posts) => {
-                console.log(posts);
+                console.log((posts.rows.length%6 || 0));
+                console.log(posts)
+                var min_item = (PAGE*LIMIT)+1;
+                var max_item;
+                if (posts.rows.length%6 == 0){
+                    max_item = ((PAGE+1)*LIMIT);
+                }
+                else {
+                    max_item = ((PAGE+1)*LIMIT) - (LIMIT - (posts.rows.length%6));
+                }
+
+                var totalpage = Math.ceil(posts.count/LIMIT);
                 res.render('forum/view_thread', {
                     title: "View thread - " + threadDetails.title,
                     id: req.params.id,
                     threadDetails: threadDetails,
-                    posts: posts
+                    posts: posts.rows,
+                    min_item: min_item,
+                    max_item: max_item,
+                    totalpage: totalpage,
+                    pagination: {
+                        page: req.params.page, // The current page the user is on
+                        pageCount: totalpage  // The total number of available pages
+                    }
                 });
             })
         }
@@ -100,7 +124,7 @@ router.get('/update_thread/:id', (req, res) => {
                 });
             }
             else {
-                alertMessage(res, 'danger', 'The thread do not exists.', 'fas fa-exclamation-triangle', true);
+                alertMessage(res, 'danger', 'The thread do not exists.', 'lnr lnr-file-empty', true);
                 res.redirect('back');
             }
             
@@ -131,7 +155,7 @@ router.post('/update_thread/:id', (req, res) => {
             where: { id: req.params.id }
         })
             .catch(err => console.log(err));
-        alertMessage(res, 'info', 'Successfully updated thread.', 'far fa-laugh-wink', true);
+        alertMessage(res, 'info', 'Successfully updated thread.', 'lnr lnr-smile', true);
         res.redirect('/forum/view_thread/' + req.params.id);
 	}
 });
@@ -159,7 +183,7 @@ router.get('/delete_thread/:id', (req, res) => {
                     }
                 })
                     .then(() => {
-                        alertMessage(res, 'info', 'Successfully deleted thread.', 'far fa-trash-alt', true);
+                        alertMessage(res, 'info', 'Successfully deleted thread.', 'lnr lnr-flag', true);
                         res.redirect('/forum');
                     })
             }) 
@@ -196,7 +220,7 @@ router.post('/view_thread/:id', (req, res) => {
         });
     }
     else {
-        alertMessage(res, 'danger', 'Access Denied, please login to proceed', 'fas fa-exclamation-triangle', true);
+        alertMessage(res, 'danger', 'Access Denied, please login to proceed', 'lnr lnr-enter', true);
         res.redirect('back');
     }
 
@@ -221,7 +245,7 @@ router.get('/update_post/:id', (req, res) => {
                 });
             }
             else {
-                alertMessage(res, 'danger', 'The post do not exists.', 'fas fa-exclamation-triangle', true);
+                alertMessage(res, 'danger', 'The post do not exists.', 'lnr lnr-unlink', true);
                 res.redirect('back');
             }
             
@@ -253,7 +277,7 @@ router.post('/update_post/:id', (req, res) => {
             where: { id: req.params.id }
         })
             .catch(err => console.log(err));
-        alertMessage(res, 'info', 'Successfully updated thread.', 'far fa-laugh-wink', true);
+        alertMessage(res, 'info', 'Successfully updated thread.', 'lnr lnr-smile', true);
         res.redirect('/forum/view_thread/' + threadId);
 	}
 });

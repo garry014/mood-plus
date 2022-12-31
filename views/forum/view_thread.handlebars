@@ -39,12 +39,26 @@
                     <div class="cardify forum--issue">
                         <div class="title_vote clearfix">
                             <h3>{{threadDetails.title}}</h3>
-                            <a href="/forum/update_thread/{{threadDetails.id}}">
-                                 <span class="lnr lnr-pencil"></span>
-                            </a>
-                            <a href="/forum/delete_thread/{{threadDetails.id}}" class="btn btn btn-sm" style="background-color:red; float: right;">
-                                <span class="lnr lnr-trash"></span>
-                            </a>
+                            <div class="filter__menu">
+                                <div class="filter__menu_icon">
+                                    <a id="drop1" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img class="svg" src="/images/svg/menu.svg" alt="menu icon">
+                                    </a>
+
+                                    <ul class="filter_dropdown dropdown-menu" aria-labelledby="drop1">
+                                        <li>
+                                            <a href="/forum/update_thread/{{threadDetails.id}}"><span class="lnr lnr-pencil"></span> Edit</a>
+                                        </li>
+                                        <li>
+                                            <!-- if user admin -->
+                                            <a href="/forum/pin_thread/{{threadDetails.id}}"><span class="lnr lnr-pushpin"></span> {{#if threadDetails.isPinned}}Unpin{{else}}Pin{{/if}}</a>
+                                        </li>
+                                        <li>
+                                            <a href="/forum/delete_thread/{{threadDetails.id}}"><span class="lnr lnr-trash"></span> Delete</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
                             <!-- end .vote -->
                         </div>
                         <!-- end .title_vote -->
@@ -65,10 +79,9 @@
 
                     <div class="forum--replays cardify">
                         <div class="area_title">
-                            <h4>3 Answers</h4>
+                            <h4>Posts</h4>
                         </div>
                         <!-- end .area_title -->
-
                         {{#each posts}}
                         <div class="forum_single_reply">
                             <div class="reply_avatar">
@@ -84,14 +97,23 @@
                                         <p>{{timestamp}}</p>
                                     </div>
                                     <!-- end .pull-left -->
+                                    
+                                    <div class="filter__menu">
+                                        <div class="filter__menu_icon">
+                                            <a id="drop1" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <img class="svg" src="/images/svg/menu.svg" alt="menu icon">
+                                            </a>
 
-                                    <div class="vote">
-                                        <a href="#" class="active">
-                                            <span class="lnr lnr-thumbs-up"></span>
-                                        </a>
-                                        <a href="#" class="">
-                                            <span class="lnr lnr-thumbs-down"></span>
-                                        </a>
+                                            <ul class="filter_dropdown dropdown-menu" aria-labelledby="drop1">
+                                                <li>
+                                                    <a href="#">Edit</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">Delete</a>
+                                                </li>
+                                                
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                                 <!-- end .vote -->
@@ -100,8 +122,31 @@
                             </div>
                             <!-- end .reply_content -->
                         </div>
+                        {{else}}
+                        <div class="area_title">
+                            <h6>Currently empty, be the first one to reply!</h6>
+                        </div>
                         {{/each}}
                         <!-- end .forum_single_reply -->
+
+                        <div class="col-md-12">
+                            <div class="pagination-area pagination-area2">
+                                <nav class="navigation pagination " role="navigation">
+                                    <div class="nav-links">
+                                        {{#paginate pagination type="previous"}}
+                                        {{#unless disabled}}<a class="prev page-numbers" href="/forum/view_thread/{{../threadDetails.id}}/{{n}}"><span class="lnr lnr-arrow-left"></span></a>{{/unless}}
+                                        {{/paginate}}
+                                        {{#paginate pagination type="middle" limit=totalpage}}
+                                        <a class="page-numbers {{#if active}}current{{/if}}" href="/forum/view_thread/{{../threadDetails.id}}/{{n}}">{{n}}</a>
+                                        {{/paginate}}
+                                        {{#paginate pagination type="next"}}
+                                        {{#unless disabled}}<a class="next page-numbers" href="/forum/view_thread/{{../threadDetails.id}}/{{n}}"><span class="lnr lnr-arrow-right"></span></a>{{/unless}}
+                                        {{/paginate}}
+                                    </div>
+                                </nav>
+                            </div>
+                            <!-- end /.pagination-area -->
+                        </div>
 
                         <div class="comment-form-area">
                             <h4>Leave a comment</h4>
