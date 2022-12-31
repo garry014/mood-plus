@@ -4,7 +4,6 @@ const Post = require('../models/Post');
 
 // Handlebars Helpers
 const alertMessage = require('../helpers/messenger');
-const ensureAuthenticated = require('../helpers/auth');
 
 // Other Requires
 const express = require('express');
@@ -26,6 +25,7 @@ router.get('/', (req, res) => {
     })
     .then((threads) => {
         console.log(threads)
+        alertMessage(res, 'success', 'Successfully updated thread.', 'alert_icon lnr lnr-checkmark-circle', true);
         res.render('forum/main_page', { title: "Let's talk about mental health" })
     })
     .catch((error) => {
@@ -65,7 +65,7 @@ router.post('/create_thread', (req, res) => {
         });
     }
     else {
-        alertMessage(res, 'danger', 'Access Denied, please login to proceed', 'lnr lnr-cross', true);
+        alertMessage(res, 'danger', 'Access Denied, please login to proceed', 'alert_icon lnr lnr-warning', true);
         res.redirect('back');
     }
 
@@ -131,7 +131,7 @@ router.get('/update_thread/:id', (req, res) => {
                 });
             }
             else {
-                alertMessage(res, 'danger', 'The thread do not exists.', 'lnr lnr-file-empty', true);
+                alertMessage(res, 'danger', 'The thread do not exists.', 'alert_icon lnr lnr-warning', true);
                 res.redirect('back');
             }
             
@@ -162,7 +162,7 @@ router.post('/update_thread/:id', (req, res) => {
             where: { id: req.params.id }
         })
             .catch(err => console.log(err));
-        alertMessage(res, 'info', 'Successfully updated thread.', 'lnr lnr-smile', true);
+        alertMessage(res, 'success', 'Successfully updated thread.', 'alert_icon lnr lnr-checkmark-circle', true);
         res.redirect('/forum/view_thread/' + req.params.id);
 	}
 });
@@ -190,13 +190,13 @@ router.get('/delete_thread/:id', (req, res) => {
                     }
                 })
                     .then(() => {
-                        alertMessage(res, 'info', 'Successfully deleted thread.', 'lnr lnr-flag', true);
+                        alertMessage(res, 'success', 'Successfully deleted thread.', 'alert_icon lnr lnr-checkmark-circle', true);
                         res.redirect('/forum');
                     })
             }) 
         }
         else {
-            alertMessage(res, 'danger', 'You do not have permission to delete this review.', 'fas fa-exclamation-triangle', true);
+            alertMessage(res, 'danger', 'You do not have permission to delete this review.', 'alert_icon lnr lnr-warning', true);
             res.redirect('/404');
         }
     })
@@ -227,7 +227,7 @@ router.post('/view_thread/:id', (req, res) => {
         });
     }
     else {
-        alertMessage(res, 'danger', 'Access Denied, please login to proceed', 'lnr lnr-enter', true);
+        alertMessage(res, 'danger', 'Access Denied, please login to proceed', 'alert_icon lnr lnr-warning', true);
         res.redirect('back');
     }
 
@@ -252,7 +252,7 @@ router.get('/update_post/:id', (req, res) => {
                 });
             }
             else {
-                alertMessage(res, 'danger', 'The post do not exists.', 'lnr lnr-unlink', true);
+                alertMessage(res, 'danger', 'The post do not exists.', 'alert_icon lnr lnr-warning', true);
                 res.redirect('back');
             }
             
@@ -284,7 +284,7 @@ router.post('/update_post/:id', (req, res) => {
             where: { id: req.params.id }
         })
             .catch(err => console.log(err));
-        alertMessage(res, 'info', 'Successfully updated thread.', 'lnr lnr-smile', true);
+        alertMessage(res, 'success', 'Successfully updated thread.', 'alert_icon lnr lnr-checkmark-circle', true);
         res.redirect('/forum/view_thread/' + threadId);
 	}
 });
