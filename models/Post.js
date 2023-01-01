@@ -17,9 +17,8 @@ const Post = db.define('post',{
     editedBy:{
         type: Sequelize.STRING
     },
-    isHidden: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: false,
+    hiddenReason: {
+        type: Sequelize.STRING
     },
 })
 

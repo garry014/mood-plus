@@ -8,6 +8,7 @@ const alertMessage = require('../helpers/messenger');
 // Other Requires
 const express = require('express');
 const router = express.Router();
+const request = require('request');
 
 // Main Forums page
 router.get('/', (req, res) => {
@@ -25,7 +26,6 @@ router.get('/', (req, res) => {
     })
     .then((threads) => {
         console.log(threads)
-        alertMessage(res, 'success', 'Successfully updated thread.', 'alert_icon lnr lnr-checkmark-circle', true);
         res.render('forum/main_page', { title: "Let's talk about mental health" })
     })
     .catch((error) => {
@@ -34,18 +34,40 @@ router.get('/', (req, res) => {
     
 });
 
+async function get_classification(post) {
+    return new Promise(res => {
+        var options = {
+            url : 'http://127.0.0.1:5000/classifyPost',
+            json : true,
+            body : {
+                comment : post
+            },
+            method : 'post'
+        };
+        request(options, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                res(body.result.toString())
+            }
+            console.log(`${response.statusCode} - ${error}`);
+            res("");
+        })
+    });
+}
+
 // GET: Create Thread
 router.get('/create_thread', (req, res) => {
     res.render('forum/create_thread', { title: "Create new thread" })
 });
 
 // POST: Create Thread
-router.post('/create_thread', (req, res) => {
+router.post('/create_thread', async (req, res) => {
     let { title, post, category } = req.body;
 
     if (post.length > 2000){
 		errors.push({msg: 'Please keep your post to 2000 characters or less.'})
 	}
+
+    let classificationResults = await get_classification(post);
 
     const username = "ducker";
     // if login
@@ -55,9 +77,11 @@ router.post('/create_thread', (req, res) => {
             post: post,
             username: username,
             category: category,
+            hiddenReason: classificationResults,
             timestamp: getToday(),
         })
         .then((thread) =>{
+            console.log(classificationResults)
             res.redirect('/forum/view_thread/'+thread.id);
         })
         .catch(err => {
@@ -77,6 +101,7 @@ router.get('/view_thread/:id', (req, res) => {
     var PAGE;
     if (!req.query.page) PAGE = 0;
     else PAGE = parseInt(req.query.page) - 1;
+    if (PAGE < 0) PAGE = 0;
 	const LIMIT = 6; 
 
     Thread.findOne({
@@ -94,17 +119,24 @@ router.get('/view_thread/:id', (req, res) => {
                 raw: true
             })
             .then((posts) => {
-                res.render('forum/view_thread', {
-                    title: "View thread - " + threadDetails.title,
-                    id: req.params.id,
-                    threadDetails: threadDetails,
-                    posts: posts.rows,
-                    postCount: posts.count,
-                    pagination: {
-                        page: PAGE+1, // The current page the user is on
-                        pageCount: Math.ceil(posts.count/LIMIT)  // The total number of available pages
-                    }
-                });
+                const max_pages = parseInt(posts.count)%6;
+                if (PAGE > max_pages) {
+                    res.redirect('/404');
+                }
+                else {
+                    res.render('forum/view_thread', {
+                        title: "View thread - " + threadDetails.title,
+                        id: req.params.id,
+                        threadDetails: threadDetails,
+                        posts: posts.rows,
+                        postCount: posts.count,
+                        pagination: {
+                            page: PAGE+1, // The current page the user is on
+                            pageCount: Math.ceil(posts.count/LIMIT)  // The total number of available pages
+                        }
+                    });
+                }
+                
             })
         }
         else {
@@ -116,6 +148,7 @@ router.get('/view_thread/:id', (req, res) => {
 // GET: Update Thread
 router.get('/update_thread/:id', (req, res) => {
     const username = "admin"
+
     Thread.findOne({
         where: {
             id: req.params.id
@@ -143,11 +176,13 @@ router.get('/update_thread/:id', (req, res) => {
 });
 
 // PUT: Update Thread
-router.post('/update_thread/:id', (req, res) => {
+router.post('/update_thread/:id', async (req, res) => {
 	let { post } = req.body;
     let errors = [];
 
     const username = "Admin"
+
+    let classificationResults = await get_classification(post);
 
 	if (post.length > 2000){
 		errors.push({msg: 'Please keep your review to 2000 characters or less.'})
@@ -156,6 +191,7 @@ router.post('/update_thread/:id', (req, res) => {
 	if (errors.length == 0) {
 		Thread.update({
             post: post,
+            hiddenReason: classificationResults,
             editTime: getToday(),
             editedBy: username
         }, {
@@ -203,12 +239,16 @@ router.get('/delete_thread/:id', (req, res) => {
 });
 
 // POST: Create Post
-router.post('/view_thread/:id', (req, res) => {
-    let { post } = req.body;
+router.post('/view_thread/:id', async (req, res) => {
+    let { post, postCount } = req.body;
 
     if (post.length > 2000){
 		errors.push({msg: 'Please keep your post to 2000 characters or less.'})
 	}
+
+    pageNum = (parseInt(postCount)+1)%6;
+
+    let classificationResults = await get_classification(post);
 
     const username = "ducker";
     // if login
@@ -217,10 +257,11 @@ router.post('/view_thread/:id', (req, res) => {
             post: post,
             username: username,
             timestamp: getToday(),
+            hiddenReason: classificationResults,
             threadId: req.params.id
         })
         .then(() =>{
-            res.redirect('/forum/view_thread/'+req.params.id);
+            res.redirect('/forum/view_thread/'+req.params.id+"?page="+pageNum);
         })
         .catch(err => {
             console.error('Unable to connect to the database:', err);

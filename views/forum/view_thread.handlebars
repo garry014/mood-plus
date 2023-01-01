@@ -66,7 +66,11 @@
                             <a href="#" class="user">
                                 <img class="poster_avatar" src="/images/support_avat1.png" alt="Support Avatar"> {{threadDetails.username}} </a>
                             <span>posted on {{threadDetails.timestamp}}</span>
+                            {{#if threadDetails.hiddenReason}}
+                            <a href="/forum/appeal/{{threadDetails.id}}?type='thread'"><span class="support_tag" style="background-color:red;">marked as inappropriate | appeal?</span></a>
+                            {{else}}
                             <span class="support_tag">{{threadDetails.category}}</span>
+                            {{/if}}
                         </div>
                         <br>
                         <div id="currentThreadPost"></div>
@@ -92,7 +96,10 @@
                                 <div class="name_vote">
                                     <div class="pull-left">
                                         <h4>{{username}}
-                                            <span>staff</span>
+                                            <!--<span>staff</span>-->
+                                            {{#if hiddenReason}}
+                                            <a href='/forum/appeal/{{id}}?type="post"'><span style="background-color:red;">marked as inappropriate | appeal?</span></a>
+                                            {{/if}}
                                         </h4>
                                         <p>{{timestamp}}</p>
                                     </div>
@@ -129,24 +136,24 @@
                         {{/each}}
                         <!-- end .forum_single_reply -->
 
-                        <div class="col-md-12">
-                            <div class="pagination-area pagination-area2">
-                                <nav class="navigation pagination " role="navigation">
-                                    <div class="nav-links">
-                                        {{#paginate pagination type="previous"}}
-                                        {{#unless disabled}}<a class="prev page-numbers" href="/forum/view_thread/{{../threadDetails.id}}?page={{n}}"><span class="lnr lnr-arrow-left"></span></a>{{/unless}}
-                                        {{/paginate}}
-                                        {{#paginate pagination type="middle" limit=totalpage}}
-                                        <a class="page-numbers {{#if active}}current{{/if}}" href="/forum/view_thread/{{../threadDetails.id}}?page={{n}}">{{n}}</a>
-                                        {{/paginate}}
-                                        {{#paginate pagination type="next"}}
-                                        {{#unless disabled}}<a class="next page-numbers" href="/forum/view_thread/{{../threadDetails.id}}?page={{n}}"><span class="lnr lnr-arrow-right"></span></a>{{/unless}}
-                                        {{/paginate}}
-                                    </div>
-                                </nav>
-                            </div>
-                            <!-- end /.pagination-area -->
+                        {{#if posts}}
+                        <div class="pagination-area pagination-area2">
+                            <nav class="navigation pagination " role="navigation">
+                                <div class="pagination-area">
+                                    {{#paginate pagination type="previous"}}
+                                    {{#unless disabled}}<a class="prev page-numbers" href="/forum/view_thread/{{../threadDetails.id}}?page={{n}}"><span class="lnr lnr-arrow-left"></span></a>{{/unless}}
+                                    {{/paginate}}
+                                    {{#paginate pagination type="middle" limit=totalpage}}
+                                    <a class="page-numbers {{#if active}}current{{/if}}" href="/forum/view_thread/{{../threadDetails.id}}?page={{n}}">{{n}}</a>
+                                    {{/paginate}}
+                                    {{#paginate pagination type="next"}}
+                                    {{#unless disabled}}<a class="next page-numbers" href="/forum/view_thread/{{../threadDetails.id}}?page={{n}}"><span class="lnr lnr-arrow-right"></span></a>{{/unless}}
+                                    {{/paginate}}
+                                </div>
+                            </nav>
                         </div>
+                        {{/if}}
+                        <!-- end /.pagination-area -->
 
                         <div class="comment-form-area">
                             <h4>Leave a comment</h4>
@@ -156,6 +163,7 @@
                                     <form class="comment-reply-form" method="POST">
                                         <div id="trumbowyg-demo"></div>
                                         <textarea id="post" name="post" style="display:none;"></textarea>
+                                        <input type="hidden" id="custId" name="postCount" value="{{postCount}}">
                                         <button onclick="submitForm()" class="btn btn--sm btn--round">Post Comment</button>
                                     </form>
                                 </div>

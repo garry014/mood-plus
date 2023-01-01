@@ -23,9 +23,8 @@ const Thread = db.define('thread',{
     editedBy:{
         type: Sequelize.STRING
     },
-    isHidden: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: false,
+    hiddenReason: {
+        type: Sequelize.STRING
     },
     isPinned: {
         type: Sequelize.BOOLEAN,
