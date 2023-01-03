@@ -12,21 +12,60 @@ const request = require('request');
 
 // Main Forums page
 router.get('/', (req, res) => {
-    // Thread Pagination - /forum?page=2
+    // Thread Pagination - /forum?page=2&category=Others
     var PAGE;
     if (!req.query.page) PAGE = 0;
     else PAGE = parseInt(req.query.page) - 1;
+    if (PAGE < 0) PAGE = 0;
 	const LIMIT = 6;
 
+    // Category
+    const CATEGORIES = ["Experiences", "Grief", "Abuse", "Relationships", "Others"];
+    var whereClause = { };
+    if (req.query.category && CATEGORIES.includes(req.query.category)) {
+        whereClause["category"] = req.query.category
+    } 
+
+    // Filters
+    var filterAction;
+    if (req.query.filter) {
+        if (req.query.filter == "open") {
+            whereClause["isClosed"] = false;
+            filterAction = "open";
+        }
+        else if (req.query.filter == "closed") {
+            whereClause["isClosed"] = true;
+            filterAction = "closed";
+        }
+    }
+
     Thread.findAll({ 
-        isHidden: false, 
+        where: whereClause,
         offset: PAGE*6,
         limit: LIMIT,
         raw: true
     })
     .then((threads) => {
-        console.log(threads)
-        res.render('forum/main_page', { title: "Let's talk about mental health" })
+        const threadsCount = threads.length;
+        const max_pages = Math.ceil(threadsCount/6);
+        console.log(PAGE, max_pages)
+        if (PAGE > max_pages) {
+            res.redirect('/404');
+        }
+        else {
+            console.log(threads)
+            res.render('forum/main_page', {
+                title: "Let's talk about mental health",
+                threads: threads,
+                threadsCount: threadsCount,
+                categories: CATEGORIES,
+                filter: filterAction,
+                pagination: {
+                    page: PAGE+1, // The current page the user is on
+                    pageCount: Math.ceil(threadsCount/LIMIT)  // The total number of available pages
+                }
+            });
+        }
     })
     .catch((error) => {
         console.error(error);
@@ -37,7 +76,7 @@ router.get('/', (req, res) => {
 async function get_classification(post) {
     return new Promise(res => {
         var options = {
-            url : 'http://127.0.0.1:5000/classifyPost',
+            url : 'http://127.0.0.1:8000/classifyPost',
             json : true,
             body : {
                 comment : post
@@ -48,7 +87,13 @@ async function get_classification(post) {
             if (!error && response.statusCode == 200) {
                 res(body.result.toString())
             }
-            console.log(`${response.statusCode} - ${error}`);
+
+            if (response){
+                console.log(`${response.statusCode} - ${error}`);
+            }
+            else{
+                console.log(console.error());
+            }
             res("");
         })
     });
@@ -119,7 +164,7 @@ router.get('/view_thread/:id', (req, res) => {
                 raw: true
             })
             .then((posts) => {
-                const max_pages = parseInt(posts.count)%6;
+                const max_pages = Math.ceil(parseInt(posts.count)/6);
                 if (PAGE > max_pages) {
                     res.redirect('/404');
                 }
@@ -175,7 +220,7 @@ router.get('/update_thread/:id', (req, res) => {
     })
 });
 
-// PUT: Update Thread
+// POST: Update Thread
 router.post('/update_thread/:id', async (req, res) => {
 	let { post } = req.body;
     let errors = [];
@@ -246,7 +291,7 @@ router.post('/view_thread/:id', async (req, res) => {
 		errors.push({msg: 'Please keep your post to 2000 characters or less.'})
 	}
 
-    pageNum = (parseInt(postCount)+1)%6;
+    pageNum = Math.ceil((parseInt(postCount)+1)/6);
 
     let classificationResults = await get_classification(post);
 

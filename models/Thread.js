@@ -26,6 +26,10 @@ const Thread = db.define('thread',{
     hiddenReason: {
         type: Sequelize.STRING
     },
+    isClosed: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+    },
     isPinned: {
         type: Sequelize.BOOLEAN,
         defaultValue: false,

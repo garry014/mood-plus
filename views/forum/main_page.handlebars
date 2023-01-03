@@ -38,17 +38,14 @@
                     <div class="thread_sort_area clearfix">
                         <div class="sort_options">
                             <ul>
-                                <li class="active">
-                                    <a href="#">All</a>
+                                <li {{#ifCond filter '==' null}}class="active"{{/ifCond}}>
+                                    <a href="/forum">All</a>
                                 </li>
-                                <li>
-                                    <a href="#">Open</a>
+                                <li {{#ifCond filter '==' 'open'}}class="active"{{/ifCond}}>
+                                    <a href="/forum?filter=open">Open</a>
                                 </li>
-                                <li>
-                                    <a href="#">Resolved</a>
-                                </li>
-                                <li>
-                                    <a href="#">Closed</a>
+                                <li {{#ifCond filter '==' 'closed'}}class="active"{{/ifCond}}>
+                                    <a href="/forum?filter=closed">Closed</a>
                                 </li>
                                 <li>
                                     <a href="#">Unanswered</a>
@@ -71,18 +68,18 @@
                     </div>
                     <!-- end .thread_sort_area -->
 
-                    
+                    {{#each threads}}
                     <div class="support_thread_list cardify">
                         <div class="support_thread--single">
                             <div class="support_thread_info">
-                                <a href="support-detail.html" class="support_title">Responsive website footer menu
-                                    <span class="pinned">Pinned</span>
+                                <a href="/forum/view_thread/{{id}}" class="support_title">{{title}}
+                                    {{#if isPinned}}<span class="pinned">Pinned</span>{{/if}}
                                 </a>
                                 <div class="suppot_query_tag">
                                     <a href="#" class="user">
-                                        <img class="poster_avatar" src="images/support_avat1.png" alt="Support Avatar"> Mitesh Chavda </a>
-                                    <span>2 hours ago</span>
-                                    <span class="support_tag">item discussion</span>
+                                        <img class="poster_avatar" src="images/support_avat1.png" alt="Support Avatar"> {{username}} </a>
+                                    <span>{{timestamp}}</span>
+                                    <span class="support_tag">{{category}}</span> <!--color code tags-->
                                 </div>
                             </div>
                             <!-- end .support_thread_info -->
@@ -90,8 +87,7 @@
                             <div class="support_thread_meta">
                                 <ul>
                                     <li class="answer_time">
-                                        <img src="images/support_avat4.png" alt="Support images">
-                                        <span class="time">1h ago</span>
+                                        <img src="/images/support_avat4.png" alt="Support images">  
                                     </li>
                                     <li>
                                         <p class="number">2</p>
@@ -107,7 +103,28 @@
                         </div>
                         <!-- end .support_thread--single -->
                     </div>
+                    {{else}}
+                    The forum is looking empty, be the first one to post!
+                    {{/each}}
                     <!-- end .support_thread_list -->
+                    
+                    {{#if threads}}
+                    <div class="pagination-area pagination" style="justify-content: center;">
+                        <nav class="navigation pagination " role="navigation">
+                            <div class="pagination-area">
+                                {{#paginate pagination type="previous"}}
+                                {{#unless disabled}}<a class="prev page-numbers" href="/forum?page={{n}}"><span class="lnr lnr-arrow-left"></span></a>{{/unless}}
+                                {{/paginate}}
+                                {{#paginate pagination type="middle" limit=totalpage}}
+                                <a class="page-numbers {{#if active}}current{{/if}}" href="/forum?page={{n}}">{{n}}</a>
+                                {{/paginate}}
+                                {{#paginate pagination type="next"}}
+                                {{#unless disabled}}<a class="next page-numbers" href="/forum?page={{n}}"><span class="lnr lnr-arrow-right"></span></a>{{/unless}}
+                                {{/paginate}}
+                            </div>
+                        </nav>
+                    </div>
+                    {{/if}}
                 </div>
                 <!-- end .support_threads -->
             </div>
@@ -115,8 +132,11 @@
 
             <div class="col-lg-4">
                 <aside class="sidebar support--sidebar">
-                    <a href="login.html" class="login_promot">
-                        <span class="lnr lnr-lock"></span>Login to Ask a Question</a>
+                    <a href="/forum/create_thread" class="login_promot">
+                        <span class="lnr lnr-pencil"></span>Create New Thread
+                    </a>
+
+                    <!--<span class="lnr lnr-lock"></span>Login to Ask a Question-->
 
                     <div class="sidebar-card card--forum_categories">
                         <div class="card-title">
@@ -125,47 +145,19 @@
                         <div class="collapsible-content">
                             <ul class="card-content">
                                 <li>
-                                    <a href="#">
-                                        <span class="lnr lnr-chevron-right"></span>Wordpress
-                                        <span class="item-count">35</span>
+                                    <a href="/forum">
+                                        <span class="lnr lnr-chevron-right"></span>All Categories
+                                        <!--<span class="item-count">35</span>-->
                                     </a>
                                 </li>
+                                {{#each categories}}
                                 <li>
-                                    <a href="#">
-                                        <span class="lnr lnr-chevron-right"></span>Support Center
-                                        <span class="item-count"> 45</span>
+                                    <a href="/forum?category={{this}}">
+                                        <span class="lnr lnr-chevron-right"></span>{{this}}
+                                        <!--<span class="item-count">35</span>-->
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="#">
-                                        <span class="lnr lnr-chevron-right"></span>General Topics
-                                        <span class="item-count">13</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <span class="lnr lnr-chevron-right"></span>Pre-Sales
-                                        <span class="item-count">08</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <span class="lnr lnr-chevron-right"></span>Purchases
-                                        <span class="item-count">34</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <span class="lnr lnr-chevron-right"></span>Billing
-                                        <span class="item-count">78</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <span class="lnr lnr-chevron-right"></span>Testimonials
-                                        <span class="item-count">26</span>
-                                    </a>
-                                </li>
+                                {{/each}}
                             </ul>
                         </div>
                         <!-- end /.collapsible_content -->
