@@ -122,6 +122,7 @@ app.use('/chat', chatRoute);
 const io = require('socket.io')(http);
 var users = [];
 
+////////////////////////////// CHAT/SOCKET.IO KJ & STACEY ////////////////////////////////////
 // io.use(sharedsession(session));
 // add listener for new connection
 io.eio.pingTimeout = 60000;
@@ -150,6 +151,7 @@ io.on("connection", async function(socket){
 		console.log('User disconnected - Username: ' + socket.username + '. Unique ID: ' + socket.id);
 	});
 });
+////////////// END OF CHAT/SOCKET.IO - DONT PUT ANY OTHER CODES BELOW UNLESS NECCESSARY ////////////////
 
 // Bring in database connection
 const moodplusDB = require('./config/DBConnection');
