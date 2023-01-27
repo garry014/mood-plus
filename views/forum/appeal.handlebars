@@ -1,0 +1,89 @@
+<!--================================
+    START BREADCRUMB AREA
+=================================-->
+<section class="breadcrumb-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="breadcrumb">
+                    <ul>
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li>
+                            <a href="/forum">Forum</a>
+                        </li>
+                        <li class="active">
+                            <a href="#">Appeal</a>
+                        </li>
+                    </ul>
+                </div>
+                <h1 class="page-title">Make an Appeal</h1>
+            </div>
+            <!-- end /.col-md-12 -->
+        </div>
+        <!-- end /.row -->
+    </div>
+    <!-- end /.container -->
+</section>
+<!--================================
+    END BREADCRUMB AREA
+=================================-->
+
+<section class="section--padding2 bgcolor">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2 col-sm-12">
+                <div class="shortcode_modules">
+                    <div class="modules__title">
+                        <h3>Appeal for {{details.title}}</h3>
+                        <br><p id="postElement"></p>
+                        <i>Posted on: {{details.timestamp}}</i>
+                    </div>
+                    <div class="modules__content">
+                        <p>Our forum moderator will review your appeal upon request. Please note that our forum moderator decision is final. <strong>Please click the Submit button to proceed.</strong></p>
+                        <form method="POST">
+                            <input type="hidden" name="post" value="{{details.post}}">
+                            <button class="btn btn-lg" style="margin: 0 auto; display: block;">Submit</button>
+                        </form>
+                        <br>
+                        <div class="panel-group accordion" role="tablist" id="accordion">
+                            <div class="panel accordion__single" id="panel-one">
+                                <div class="single_acco_title">
+                                    <h4>
+                                        <a data-toggle="collapse" href="#collapse1" class="collapsed" aria-expanded="false" data-target="#collapse1" aria-controls="collapse1">
+                                            <span>Why is my post/thread being marked as inappropriate?</span>
+                                            <i class="lnr lnr-chevron-down indicator"></i>
+                                        </a>
+                                    </h4>
+                                </div>
+
+                                <div id="collapse1" class="panel-collapse collapse" aria-labelledby="panel-one" data-parent="#accordion">
+                                    <div class="panel-body">
+                                        <p>Our Artificial Intelligence (AI) or forum moderator has marked your post/thread as toxic. If you feel that Mood+ have unjustifiably marked your post/thread, please appeal, and we will get a moderator to revet your post.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end /.accordion__single -->
+                            
+                        </div>
+                        <!-- end /.accordion -->
+                    </div>
+                </div>
+            </div>
+            <!-- end .col-md-6 -->
+        </div>
+        <!-- end .row -->
+    </div>
+    <!-- end .container -->
+</section>
+
+<script>
+    document.getElementById('postElement').innerHTML += decodeHtml("{{details.post}}")
+
+    function decodeHtml(html) {
+        var txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return txt.value;
+    }
+</script>

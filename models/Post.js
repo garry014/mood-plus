@@ -20,6 +20,9 @@ const Post = db.define('post',{
     hiddenReason: {
         type: Sequelize.STRING
     },
+    vettingRequest: {
+        type: Sequelize.STRING
+    },
 })
 
 module.exports = Post;

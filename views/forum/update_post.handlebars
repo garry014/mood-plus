@@ -37,7 +37,7 @@
                 <div class="question-form cardify p-4">
                     <form id="postform" method="POST"> <!-- action="/forum/create_thread" -->
                         <div class="form-group">
-                            <input type="hidden" id="threadId" value="{{postDetails.threadId}}">
+                            <input type="hidden" name="threadId" value="{{postDetails.threadId}}">
                             <label>Post Description:</label>
                             <textarea id="post" name="post" style="display:none;">{{postDetails.post}}</textarea>
                             <div id="trumbowyg-demo"></div>

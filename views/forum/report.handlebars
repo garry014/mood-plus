@@ -1,0 +1,76 @@
+<!--================================
+    START BREADCRUMB AREA
+=================================-->
+<section class="breadcrumb-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="breadcrumb">
+                    <ul>
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li>
+                            <a href="/forum">Forum</a>
+                        </li>
+                        <li class="active">
+                            <a href="#">Report</a>
+                        </li>
+                    </ul>
+                </div>
+                <h1 class="page-title">Report Thread/Post</h1>
+            </div>
+            <!-- end /.col-md-12 -->
+        </div>
+        <!-- end /.row -->
+    </div>
+    <!-- end /.container -->
+</section>
+<!--================================
+    END BREADCRUMB AREA
+=================================-->
+
+<section class="section--padding2 bgcolor">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2 col-sm-12">
+                <div class="shortcode_modules">
+                    <div class="modules__title">
+                        <h3>Report {{details.title}}</h3>
+                        <br><p id="postElement"></p>
+                        <i>Posted on: {{details.timestamp}}</i>
+                    </div>
+                    <div class="modules__content">
+                        <form method="POST">
+                            <input type="hidden" name="post" value="{{details.post}}">
+                            <h6>Why are you reporting this post/thread?</h6>
+                            <div class="checkboxes">
+                                <label><input name="classification" type="checkbox" value="toxic"> <span>Toxic</span></label>&nbsp;&nbsp;
+                                <label><input name="classification" type="checkbox" value="obscene"> <span>Obscene</span></label>&nbsp;&nbsp;
+                                <label><input name="classification" type="checkbox" value="threat"> <span>Threat</span></label>&nbsp;&nbsp;
+                                <label><input name="classification" type="checkbox" value="insult"> <span>Insult</span></label>&nbsp;&nbsp;
+                                <label><input name="classification" type="checkbox" value="identity_hate"> <span>Identity hate</span></label>
+                            </div>
+                            <p>Our forum moderator will review your report upon request. Please note that our forum moderator decision is final. <strong>Please click the Submit button to proceed.</strong></p>
+                            <button class="btn btn-lg" style="margin: 0 auto; display: block;">Submit</button>
+                        </form>
+                        <!-- end /.accordion -->
+                    </div>
+                </div>
+            </div>
+            <!-- end .col-md-6 -->
+        </div>
+        <!-- end .row -->
+    </div>
+    <!-- end .container -->
+</section>
+
+<script>
+    document.getElementById('postElement').innerHTML += decodeHtml("{{details.post}}")
+
+    function decodeHtml(html) {
+        var txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return txt.value;
+    }
+</script>

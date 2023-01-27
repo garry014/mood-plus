@@ -22,13 +22,14 @@ const FlashMessenger = require('flash-messenger'); // add this require
 */
 const mainRoute = require('./routes/main');
 const forumRoute = require('./routes/forum'); // Add this line
-
+const chatRoute = require('./routes/chat');
 
 /*
 * Creates an Express server - Express is a web application framework for creating web applications
 * in Node JS.
 */
 const app = express();
+const http = require("http").createServer(app);
 
 // Handlebars Middleware
 /*
@@ -115,6 +116,40 @@ app.use(function (req, res, next) {
 * */
 app.use('/', mainRoute);
 app.use('/forum', forumRoute); // Add this line
+app.use('/chat', chatRoute);
+
+// Create socket instance
+const io = require('socket.io')(http);
+var users = [];
+
+// io.use(sharedsession(session));
+// add listener for new connection
+io.eio.pingTimeout = 60000;
+io.on("connection", async function(socket){
+	console.log("user connected: ", ) //"'\x1b[36m%s\x1b[0m'",;
+
+	// TODO: Change with login user instead of static user
+	socket.on('new_user', (user) => {
+		socket.username = user;
+		console.log('User connected - Username: ' + socket.username + '. Unique ID: ' + socket.id);
+	});
+
+	// RECEIVE MESSAGE FROM CLIENT (browser).
+	// Seperate CHAT with humans | chat with BOT, if not the same user will get the message twice if both tabs are opened
+	socket.on('bot_receive_message', (msg) => {
+		console.log(socket.username + ': ' + msg);
+		// TODO: Stacey call your model as an API HERE
+		
+		io.emit('bot_send_message', {message: msg, user: socket.username});
+		// After that use this to emit (send) message back to client (browser).
+		io.emit('bot_send_message', {message: "You need to poop more often to get better mental health.", user: "bot"});
+		// End of TODO
+	});
+	
+	socket.on('disconnect', () => {
+		console.log('User disconnected - Username: ' + socket.username + '. Unique ID: ' + socket.id);
+	});
+});
 
 // Bring in database connection
 const moodplusDB = require('./config/DBConnection');
@@ -143,7 +178,7 @@ app.use(function (req, res, next) {
 const port = 5000;
 
 // Starts the server and listen to port 5000
-app.listen(port, () => {
+http.listen(port, () => {
 	MOTIVATIONAL_PUNS = ['Leggo~ Final push to grad 🥳.', "Stop slacking, I'm watching you 👀.", "The solution is 1 call away."]
 	console.log(`${MOTIVATIONAL_PUNS[Math.floor(Math.random() * 3)]} Server started on port http://localhost:${port}`);
 });

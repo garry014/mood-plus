@@ -1,0 +1,110 @@
+<!--================================
+    START BREADCRUMB AREA
+=================================-->
+<section class="breadcrumb-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="breadcrumb">
+                    <ul>
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li>
+                            <a href="/forum">Forum</a>
+                        </li>
+                        <li class="active">
+                            <a href="#">Moderator Panel</a>
+                        </li>
+                    </ul>
+                </div>
+                <h1 class="page-title">Manage Appeal Requests</h1>
+            </div>
+            <!-- end /.col-md-12 -->
+        </div>
+        <!-- end /.row -->
+    </div>
+    <!-- end /.container -->
+</section>
+<!--================================
+    END BREADCRUMB AREA
+=================================-->
+
+<!--================================
+        START DASHBOARD AREA
+=================================-->
+<section class="section--padding2 bgcolor">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="">
+                    <div class="modules__content">
+                        <div class="withdraw_module withdraw_history">
+                            <div class="withdraw_table_header">
+                                <h3>Appeals</h3>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table withdraw__table">
+                                    <thead>
+                                        <tr>
+                                            <th>Timestamp</th>
+                                            <th>Thread/Post</th>
+                                            <th>Username</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr>
+                                            {{#each threads}}
+                                            <td>{{timestamp}}</td>
+                                            <td id="thread-{{id}}">{{post}}</td>
+                                            <td>{{username}}</td>
+                                            <td>
+                                                <a href="/forum/set_appeal/accepted/thread/{{id}}"><span class="lnr lnr-thumbs-up"></span></a> &nbsp;&nbsp;
+                                                <a href="/forum/set_appeal/rejected/thread/{{id}}"><span class="lnr lnr-cross" style="color: red;"></span></a>
+                                            </td>
+                                            {{/each}}
+                                        </tr>
+                                        <tr>
+                                            {{#each posts}}
+                                            <td>{{timestamp}}</td>
+                                            <td id="post-{{id}}">{{post}}</td>
+                                            <td>{{username}}</td>
+                                            <td>
+                                                <a href="/forum/set_appeal/accepted/post/{{id}}"><span class="lnr lnr-thumbs-up"></span></a> &nbsp;&nbsp;
+                                                <a href="/forum/set_appeal/rejected/post/{{id}}"><span class="lnr lnr-cross" style="color: red;"></span></a>
+                                            </td>
+                                            {{/each}}
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end .col-md-6 -->
+        </div>
+        <!-- end .row -->
+    </div>
+    <!-- end .container -->
+</section>
+<!--================================
+        END DASHBOARD AREA
+=================================-->
+
+<script>
+    {{#each threads}}
+    document.getElementById('thread-{{id}}').innerHTML = decodeHtml("{{post}}");
+    {{/each}}
+    {{#each posts}}
+    document.getElementById('post-{{id}}').innerHTML = decodeHtml("{{post}}");
+    {{/each}}
+
+    function decodeHtml(html) {
+        var txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return txt.value;
+    }
+</script>

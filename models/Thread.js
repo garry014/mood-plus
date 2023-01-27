@@ -34,6 +34,9 @@ const Thread = db.define('thread',{
         type: Sequelize.BOOLEAN,
         defaultValue: false,
     },
+    vettingRequest: {
+        type: Sequelize.STRING
+    },
 });
 
 module.exports = Thread;

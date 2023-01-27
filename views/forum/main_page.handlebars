@@ -10,9 +10,14 @@
                         <li>
                             <a href="/">Home</a>
                         </li>
-                        <li class="active">
-                            <a href="#">Forum</a>
+                        <li {{#ifCond searchText '==' null}}class="active"{{/ifCond}}>
+                            <a href="/forum">Forum</a>
                         </li>
+                        {{#ifCond searchText '!=' null}}
+                        <li class="active">
+                            <a href="#">Search Threads</a>
+                        </li>
+                        {{/ifCond}}
                     </ul>
                 </div>
                 <h1 class="page-title">A safe space for mental health dicussions</h1>
@@ -47,17 +52,14 @@
                                 <li {{#ifCond filter '==' 'closed'}}class="active"{{/ifCond}}>
                                     <a href="/forum?filter=closed">Closed</a>
                                 </li>
-                                <li>
-                                    <a href="#">Unanswered</a>
-                                </li>
                             </ul>
                         </div>
                         <!-- end .sort_options -->
 
                         <div class="thread_search_area">
-                            <form action="#">
+                            <form method="POST">
                                 <div class="searc-wrap">
-                                    <input type="text" placeholder="Search forum">
+                                    <input type="text" name="searchText" placeholder="Search forum" value="{{searchText}}">
                                     <button type="submit" class="search-wrap__btn">
                                         <span class="lnr lnr-magnifier"></span>
                                     </button>

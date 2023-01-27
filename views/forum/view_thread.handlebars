@@ -38,7 +38,7 @@
                 <div class="forum_detail_area ">
                     <div class="cardify forum--issue">
                         <div class="title_vote clearfix">
-                            <h3>{{threadDetails.title}}</h3>
+                            <h3><button onclick="listen('currentThreadPost')" title="Listen to text"><span class="lnr lnr-volume-medium"></span></button> {{threadDetails.title}}</h3>
                             <div class="filter__menu">
                                 <div class="filter__menu_icon">
                                     <a id="drop1" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -56,6 +56,9 @@
                                         <li>
                                             <a href="/forum/delete_thread/{{threadDetails.id}}"><span class="lnr lnr-trash"></span> Delete</a>
                                         </li>
+                                        <li>
+                                            <a href="/forum/report/thread/{{threadDetails.id}}"><span class="lnr lnr-flag"></span> Report</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -67,15 +70,22 @@
                                 <img class="poster_avatar" src="/images/support_avat1.png" alt="Support Avatar"> {{threadDetails.username}} </a>
                             <span>posted on {{threadDetails.timestamp}}</span>
                             {{#if threadDetails.hiddenReason}}
-                            <a href="/forum/appeal/{{threadDetails.id}}?type='thread'"><span class="support_tag" style="background-color:red;">marked as inappropriate | appeal?</span></a>
+                                {{#ifCond threadDetails.vettingRequest '==' null}}
+                                <a href="/forum/appeal/thread/{{threadDetails.id}}"><span class="support_tag" style="background-color:red;">marked as inappropriate | appeal?</span></a>
+                                {{/ifCond}}
+                                {{#ifCond threadDetails.vettingRequest '==' "pending"}}
+                                <span class="support_tag" style="background-color:#FFA500;">marked as inappropriate | appeal pending</span>
+                                {{/ifCond}}
+                                {{#ifCond threadDetails.vettingRequest '==' "rejected"}}
+                                <span class="support_tag" style="background-color:red;">marked as inappropriate | appeal rejected</span>
+                                {{/ifCond}}
                             {{else}}
                             <span class="support_tag">{{threadDetails.category}}</span>
                             {{/if}}
                         </div>
-                        <br>
                         <div id="currentThreadPost"></div>
                         {{#if threadDetails.editedBy}}
-                            <span><i>Last edited by <a href="#" class="user">{{threadDetails.editedBy}}</a> on {{threadDetails.editTime}}</i></span>
+                            <span style="float:right"><i>Last edited by <a href="#" class="user">{{threadDetails.editedBy}}</a> on {{threadDetails.editTime}}</i></span>
                         {{/if}}
                     </div>
                     <!-- end .forum_issue -->
@@ -98,7 +108,15 @@
                                         <h4>{{username}}
                                             <!--<span>staff</span>-->
                                             {{#if hiddenReason}}
-                                            <a href='/forum/appeal/{{id}}?type="post"'><span style="background-color:red;">marked as inappropriate | appeal?</span></a>
+                                                {{#ifCond vettingRequest '==' null}}
+                                                <a href="/forum/appeal/post/{{id}}"><span class="support_tag" style="background-color:red;">marked as inappropriate | appeal?</span></a>
+                                                {{/ifCond}}
+                                                {{#ifCond vettingRequest '==' "pending"}}
+                                                <span class="support_tag" style="background-color:#FFA500;">marked as inappropriate | appeal pending</span>
+                                                {{/ifCond}}
+                                                {{#ifCond vettingRequest '==' "rejected"}}
+                                                <span class="support_tag" style="background-color:red;">marked as inappropriate | appeal rejected</span>
+                                                {{/ifCond}}
                                             {{/if}}
                                         </h4>
                                         <p>{{timestamp}}</p>
@@ -113,10 +131,10 @@
 
                                             <ul class="filter_dropdown dropdown-menu" aria-labelledby="drop1">
                                                 <li>
-                                                    <a href="#">Edit</a>
+                                                    <a href="/forum/update_post/{{id}}">Edit</a>
                                                 </li>
                                                 <li>
-                                                    <a href="#">Delete</a>
+                                                    <a href="/forum/delete_post/{{id}}">Delete</a>
                                                 </li>
                                                 
                                             </ul>
@@ -164,6 +182,7 @@
                                         <div id="trumbowyg-demo"></div>
                                         <textarea id="post" name="post" style="display:none;"></textarea>
                                         <input type="hidden" id="custId" name="postCount" value="{{postCount}}">
+                                        <textarea id="note-textarea" placeholder="Create a new note by typing or using voice recognition." rows="6"></textarea>
                                         <button onclick="submitForm()" class="btn btn--sm btn--round">Post Comment</button>
                                     </form>
                                 </div>
@@ -281,18 +300,44 @@
         END DASHBOARD AREA
 =================================-->
 
+<!-- Delete Modal -->
+<form action="/tailor/deleteProduct/{{id}}" style="display: inline-block;">
+    <!-- The Modal -->
+    <div class="modal" id="myModal_{{id}}">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+                <h4 class="modal-title">Delete Confirmation</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            Are you sure you want to delete {{name}}
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <button type="submit" value="Delete" class="btn btn-danger">Delete</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+</form>
+
 <script>
     document.getElementById('currentThreadPost').innerHTML += decodeHtml("{{threadDetails.post}}")
 
     function decodeHtml(html) {
         var txt = document.createElement("textarea");
         txt.innerHTML = html;
-        console.log(txt.value);
         return txt.value;
     }
-</script>
 
-<script>
     var trumbowygPost;
     window.addEventListener("load", (event) => {
         trumbowygPost = document.querySelector('textarea[name="trumbowyg-demo"]');
@@ -311,5 +356,18 @@
         var txt = document.createElement("textarea");
         txt.innerHTML = html;
         return txt.value;
+    }
+
+    function listen(divId){
+        var divText = document.getElementById(divId).innerText;
+        readText(divText);
+    }
+
+    function readText(text) {
+        console.log(text)
+        const synth = window.speechSynthesis;
+        const utterance = new SpeechSynthesisUtterance();
+        utterance.text = text;
+        synth.speak(utterance);
     }
 </script>
