@@ -9,7 +9,7 @@ const Report = db.define('report',{
         type:Sequelize.INTEGER
     },
     post:{
-        type:Sequelize.STRING
+        type:Sequelize.STRING(2000)
     },
     reportedBy:{
         type:Sequelize.STRING

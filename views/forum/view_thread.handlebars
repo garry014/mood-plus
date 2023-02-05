@@ -131,12 +131,14 @@
 
                                             <ul class="filter_dropdown dropdown-menu" aria-labelledby="drop1">
                                                 <li>
-                                                    <a href="/forum/update_post/{{id}}">Edit</a>
+                                                    <a href="/forum/update_post/{{id}}"><span class="lnr lnr-pencil"></span> Edit</a>
                                                 </li>
                                                 <li>
-                                                    <a href="/forum/delete_post/{{id}}">Delete</a>
+                                                    <a href="/forum/delete_post/{{id}}"><span class="lnr lnr-trash"></span> Delete</a>
                                                 </li>
-                                                
+                                                <li>
+                                                    <a href="/forum/report/post/{{id}}"><span class="lnr lnr-flag"></span> Report</a>
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
@@ -182,8 +184,18 @@
                                         <div id="trumbowyg-demo"></div>
                                         <textarea id="post" name="post" style="display:none;"></textarea>
                                         <input type="hidden" id="custId" name="postCount" value="{{postCount}}">
-                                        <textarea id="note-textarea" placeholder="Create a new note by typing or using voice recognition." rows="6"></textarea>
-                                        <button onclick="submitForm()" class="btn btn--sm btn--round">Post Comment</button>
+                                        <!-- Voice to Text -->
+                                        <script src="https://www.WebRTC-Experiment.com/RecordRTC.js"></script>
+                                        <div class="real-time-interface">
+                                            <button id="voiceTranscriptButton" type="button" class="btn btn--icon btn-sm btn--round btn-secondary">
+                                                <span class="lnr lnr-mic"></span> Start Voice Transcript
+                                            </button>
+                                            <p id="message" class="real-time-interface__message"></p>
+                                        </div>
+                                        <!-- voice to text -->
+                                        <span class="lnr lnr-menu-circle"></span> To ensure Mood+ remains a safe space for all, your post will be vetted by our Artifical Intelligence.<br>
+                                        <button onclick="submitForm()" style="float: right;" class="btn btn--md btn-primary">Post Comment</button>
+                                        <br><br>
                                     </form>
                                 </div>
                             </div>
@@ -329,6 +341,7 @@
     </div>
 </form>
 
+<script src="/js/speechToText.js"></script>
 <script>
     document.getElementById('currentThreadPost').innerHTML += decodeHtml("{{threadDetails.post}}")
 
@@ -338,19 +351,11 @@
         return txt.value;
     }
 
-    var trumbowygPost;
     window.addEventListener("load", (event) => {
-        trumbowygPost = document.querySelector('textarea[name="trumbowyg-demo"]');
         {{#each posts}}
         document.getElementById('post-{{id}}').innerHTML = decodeHtml("{{post}}");
         {{/each}}
     });
-    
-    function submitForm(){
-        var post = document.getElementById('post');
-        post.value = trumbowygPost.value;
-        document.getElementById('threadform').submit();
-    }
 
     function decodeHtml(html) {
         var txt = document.createElement("textarea");

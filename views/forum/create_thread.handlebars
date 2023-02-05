@@ -38,7 +38,7 @@
         <div class="row">
             <div class="col-lg-8">
                 <div class="question-form cardify p-4">
-                    <form id="threadform"  method="POST"> <!-- action="/forum/create_thread" -->
+                    <form id="threadform" method="POST"> <!-- action="/forum/create_thread" -->
                         <div class="form-group">
                             <label>Title</label>
                             <input name="title" type="text" placeholder="Enter title here">
@@ -47,6 +47,16 @@
                             <label>Description</label>
                             <textarea id="post" name="post" style="display:none;">{{post}}</textarea>
                             <div id="trumbowyg-demo"></div>
+                            <!-- Voice to Text -->
+                            <script src="https://www.WebRTC-Experiment.com/RecordRTC.js"></script>
+                            <div class="real-time-interface">
+                                <button id="voiceTranscriptButton" type="button" class="btn btn--icon btn-sm btn--round btn-secondary">
+                                    <span class="lnr lnr-mic"></span> Start Voice Transcript
+                                </button>
+                                <br>Voice is transcript supported in English only.
+                                <p id="message" class="real-time-interface__message"></p>
+                            </div>
+                            <!-- voice to text -->
                         </div>
                         <div class="form-group">
                             <label>Category</label>
@@ -63,7 +73,10 @@
                             </div><!-- end /.select-wrap -->
                         </div>
                         <div class="form-group">
-                            <button type="button" onclick="submitForm()" class="btn btn--md btn-primary">Post new thread</button>
+                            <span class="lnr lnr-menu-circle"></span> To ensure Mood+ remains a safe space for all, your
+                            post will be vetted by our Artifical Intelligence.<br>
+                            <button type="button" onclick="submitForm()" style="float: right;" class="btn btn--md btn-primary">Post new thread</button>
+                            <br><br>
                         </div>
                     </form>
                 </div><!-- ends: .question-form -->
@@ -168,15 +181,4 @@
         END DASHBOARD AREA
 =================================-->
 
-<script>
-    var trumbowygPost;
-    window.addEventListener("load", (event) => {
-        trumbowygPost = document.querySelector('textarea[name="trumbowyg-demo"]');
-    });
-    
-    function submitForm(){
-        var post = document.getElementById('post');
-        post.value = trumbowygPost.value;
-        document.getElementById('threadform').submit();
-    }
-</script>
+<script src="/js/speechToText.js"></script>

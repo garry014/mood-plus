@@ -41,9 +41,21 @@
                             <label>Description</label>
                             <textarea id="post" name="post" style="display:none;">{{post}}</textarea>
                             <div id="trumbowyg-demo"></div>
+                            <!-- Voice to Text -->
+                            <script src="https://www.WebRTC-Experiment.com/RecordRTC.js"></script>
+                            <div class="real-time-interface">
+                                <button id="voiceTranscriptButton" type="button" class="btn btn--icon btn-sm btn--round btn-secondary">
+                                    <span class="lnr lnr-mic"></span> Start Voice Transcript
+                                </button>
+                                <br>Voice is transcript supported in English only.
+                                <p id="message" class="real-time-interface__message"></p>
+                            </div>
+                            <!-- voice to text -->
                         </div>
                         <div class="form-group">
-                            <button type="button" onclick="submitForm()" class="btn btn--md btn-primary">Update thread</button>
+                            <span class="lnr lnr-menu-circle"></span> To ensure Mood+ remains a safe space for all, your post will be vetted by our Artifical Intelligence.<br>
+                            <button type="button" onclick="submitForm()" style="float: right;" class="btn btn--md btn-primary">Update thread</button>
+                            <br><br>
                         </div>
                     </form>
                 </div><!-- ends: .question-form -->
@@ -148,18 +160,13 @@
         END DASHBOARD AREA
 =================================-->
 
+<script src="/js/speechToText.js"></script>
 <script>
-    var trumbowygPost;
     window.addEventListener("load", (event) => {
-        trumbowygPost = document.querySelector('textarea[name="trumbowyg-demo"]');
         document.getElementById('trumbowyg-demo').innerHTML = (decodeHtml(`{{threadDetails.post}}`));
+        trumbowygPost.value = (decodeHtml(`{{threadDetails.post}}`));
     });
     
-    function submitForm(){
-        var post = document.getElementById('post');
-        post.value = trumbowygPost.value;
-        document.getElementById('threadform').submit();
-    }
 
     function decodeHtml(html) {
         var txt = document.createElement("textarea");

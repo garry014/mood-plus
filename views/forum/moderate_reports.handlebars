@@ -55,18 +55,18 @@
                                     </thead>
 
                                     <tbody>
+                                        {{#each reports}}
                                         <tr>
-                                            {{#each reports}}
                                             <td>{{timestamp}}</td>
                                             <td id="post-{{id}}">{{post}}</td>
                                             <td>{{classification}}</td>
                                             <td>
                                                 <a href="/forum/set_report/accepted/{{type}}/{{id}}"><span class="lnr lnr-thumbs-up"></span></a> &nbsp;&nbsp;
-                                                <a href="/forum/set_report/edit/{{type}}/{{id}}"><span class="lnr lnr-pencil"></span></a> &nbsp;&nbsp;
+                                                {{!-- <a href="/forum/set_report/edit/{{type}}/{{id}}"><span class="lnr lnr-pencil"></span></a> &nbsp;&nbsp; --}}
                                                 <a href="/forum/set_report/rejected/{{type}}/{{id}}"><span class="lnr lnr-cross" style="color: red;"></span></a>
                                             </td>
-                                            {{/each}}
                                         </tr>
+                                        {{/each}}
                                     </tbody>
                                 </table>
                             </div>

@@ -6,15 +6,16 @@ const Report = require('../models/Report');
 // Handlebars Helpers
 const alertMessage = require('../helpers/messenger');
 
+// Realtime transcript
+const axios = require('axios');
+const cors = require('cors');
+
 // Other Requires
 const express = require('express');
 const router = express.Router();
 const request = require('request');
 const smartSearch = require('smart-search');
 const { where } = require('sequelize');
-
-// Spam Filter
-const akismet = require('akismet').client({ blog: 'https://localhost5000.com', apiKey: '5f0026177ed6' });
 
 // Main Forums page
 router.get('/', (req, res) => {
@@ -133,7 +134,7 @@ async function get_classification(post) {
             }
 
             if (response){
-                console.log(`${response.statusCode} - ${error}`);
+                console.log(`model error: ${response.statusCode} - ${error}`);
             }
             else{
                 console.log(console.error());
@@ -141,27 +142,6 @@ async function get_classification(post) {
             res("");
         })
     });
-}
-
-async function check_spam(post) {
-    // not detecting spam.
-    akismet.verifyKey(function(err, verified) {
-    if (verified) {
-        akismet.checkComment({ 
-            user_ip: '172.143.154.1', 
-            comment_author: 'spammer',
-            comment_content: `that was spam but you failed to catch me`
-          }, function(err, spam) {
-            console.log(spam)
-            if(spam)
-                console.log('Spam caught.');
-            else
-                console.log('Not spam');
-        });
-    }
-    else 
-        console.log('Unable to verify API key.');
-    });  
 }
 
 // GET: Create Thread
@@ -198,9 +178,6 @@ router.post('/create_thread', async (req, res) => {
     }
 
     let classificationResults = await get_classification(post);
-    let spamResults = await check_spam(post);
-
-    console.log(spamResults)
     // if login
     if (errors.length > 0){
         res.render('forum/create_thread', { 
@@ -416,8 +393,6 @@ router.post('/view_thread/:id', async (req, res) => {
     pageNum = Math.ceil((parseInt(postCount)+1)/6);
 
     let classificationResults = await get_classification(post);
-    let spamResults = await check_spam(post);
-    console.log(spamResults)
 
     // if login
     if (errors.length > 0){
@@ -870,5 +845,21 @@ function getToday(){
 			+ currentdate.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
 	return datetime;
 }
+
+router.get('/speechToText', async (req, res) => {
+    try {
+        const response = await axios.post('https://api.assemblyai.com/v2/realtime/token', // use account token to get a temp user token
+            { expires_in: 3600 }, // can set a TTL timer in seconds.
+            { headers: { authorization: '8c956f51c71f4887b7f99006049dd595' } }
+        ); 
+        const { data } = response;
+        // console.log(data);
+        console.log("Please dont spam this speech to text feature, it's pay per use :/")
+        res.json(data);
+    } catch (error) {
+      const {response: {status, data}} = error;
+      res.status(status).json(data);
+    }
+});
 
 module.exports = router;
