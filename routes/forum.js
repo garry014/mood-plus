@@ -5,10 +5,10 @@ const Report = require('../models/Report');
 
 // Handlebars Helpers
 const alertMessage = require('../helpers/messenger');
+const ensureAuthenticated = require('../helpers/auth.js');
 
 // Realtime transcript
 const axios = require('axios');
-const cors = require('cors');
 
 // Other Requires
 const express = require('express');
@@ -146,7 +146,7 @@ async function get_classification(post) {
 }
 
 // GET: Create Thread
-router.get('/create_thread', (req, res) => {
+router.get('/create_thread', ensureAuthenticated, (req, res) => {
     res.render('forum/create_thread', { title: "Create new thread" })
 });
 

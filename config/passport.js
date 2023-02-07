@@ -23,22 +23,18 @@ const User = require('../models/User');
 
 function localStrategy(passport) {
     passport.use(new LocalStrategy({ usernameField: 'username', passReqToCallback: true }, (req, username, password, done) => {
-        console.log("username: ", username)
         User.findOne({
-            where: { username: username, usertype: req.body.usertype }
+            where: { username: username }
         })
             .then(user => {
-                
                 if (!user) {
                     return done(null, false, { message: 'No User Found' });
                 }
                 // Match password
-                console.log("user: ",user.password)
                 bcrypt.compare(password, user.password, (err, isMatch) => {
                     if (err) throw err;
                     console.log("user: ",user)
                     if (isMatch) {
-                        console.log("at 23")
                         return done(null, user);
                     } else {
                         return done(null, false, { message: 'Password incorrect' });
@@ -66,14 +62,11 @@ function localStrategy(passport) {
     // Serializes (stores) user id into session upon successful
     // authentication
     passport.serializeUser((User, done) => {
-        console.log("at 50" , User)
         done(null, User.id); // user.id is used to identify authenticated user
-        console.log("at 52")
     });
     // User object is retrieved by userId from session and
     // put into req.user
     passport.deserializeUser((username, done) => {
-        console.log("at 55")
         User.findByPk(username)
             .then((user) => {
                 done(null, user); // user object saved in req.session

@@ -345,7 +345,6 @@ router.get('/login', (req, res) => {
 });
 
 router.post('/login', (req, res, next) => {
-	console.log("167")
 	passport.authenticate('local', {
 		successRedirect: '/',
 		failureRedirect: '/user/login', // Route to /login URL
@@ -362,7 +361,6 @@ router.get('/loginadmin', (req, res) => {
 });
 
 router.post('/loginadmin', (req, res, next) => {
-	console.log("167")
 	passport.authenticate('local', {
 		successRedirect: '/homeadmin',
 		failureRedirect: '/user/loginadmin', // Route to /login URL
