@@ -8,6 +8,9 @@ const Thread = db.define('thread',{
     post:{
         type:Sequelize.STRING(2000)
     },
+    summary:{
+        type:Sequelize.STRING(100)
+    },
     username:{
         type:Sequelize.STRING
     },

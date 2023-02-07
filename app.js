@@ -155,8 +155,16 @@ authenticate.localStrategy(passport);
 // stacey stop add user auth
 
 
-// Place to define global variables - not used in practical 1
+// Place to define global variables
 app.use(function (req, res, next) {
+	// User Details
+	if (typeof req.user != "undefined") {
+		res.locals.user = req.user.dataValues || null;
+	}
+	// //session
+	// if (typeof req.sess != "undefined") {
+	// 	res.locals.sess = req.user.dataValues || null;
+	// }
 	next();
 });
 
@@ -290,6 +298,10 @@ const io = require('socket.io')(http);
 var users = [];
 
 ////////////////////////////// CHAT/SOCKET.IO KJ & STACEY ////////////////////////////////////
+function getKeyByValue(object, value) {
+	return Object.keys(object).find(key => object[key] === value);
+}
+
 // stacey model
 async function get_chatbot_response(msg) {
     return new Promise(res => {

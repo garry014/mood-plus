@@ -20,6 +20,7 @@ const { where } = require('sequelize');
 // Main Forums page
 router.get('/', (req, res) => {
     // Thread Pagination - /forum?page=2&category=Others
+    console.log(req.session)
     var PAGE;
     if (!req.query.page) PAGE = 0;
     else PAGE = parseInt(req.query.page) - 1;
