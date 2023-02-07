@@ -9,21 +9,25 @@ router.get('/', (req, res) => {
 	res.render('index', { title: title })
 });
 
+// admin : Home Page
+router.get('/homeadmin', (req, res) => {
+	const title = 'Mood+';
+	console.log("user-->", req.user);
+	res.render('indexadmin', { title: title, user: req.user})
+});
+
+// counsellor : Home Page
+router.get('/homecounsellor', (req, res) => {
+	const title = 'Mood+';
+	console.log("user-->", req.user);
+	res.render('indexcounsellor', { title: title, user: req.user})
+});
+
+
 // Logout User
 router.get('/logout', (req, res) => {
 	req.logout();
 	res.redirect('/');
-});
-
-
-// Display Login Page
-router.get('/showLogin', (req, res) => {
-	res.render('user/login') // 
-});
-
-//Display Register Page
-router.get('/showRegister', (req, res) => {
-	res.render('user/register') // 
 });
 
 // Display About Page
