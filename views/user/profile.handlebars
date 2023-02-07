@@ -1,0 +1,150 @@
+<section class="dashboard-area">
+
+	<div class="dashboard_contents">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="dashboard_title_area">
+						<div class="dashboard__title">
+							<h3>Account Settings</h3>
+						</div>
+					</div>
+				</div>
+				<!-- end /.col-md-12 -->
+			</div>
+			<!-- end /.row -->
+
+			<form action="/user/profile/{{User.id}}?_method=PUT" method="post" class="setting_form">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="information_module">
+							<a class="toggle_title">
+								<h4>Personal Information</h4>
+							</a>
+
+							<div class="information__set toggle_module">
+								<div class="information_wrapper form--fields">
+									<div class="form-group">
+										<label for="firstname">First Name</label>
+										{{!-- <input type="text" id="fname" class="text_field" placeholder="First name"
+											value="{{User.firstname}}"> --}}
+										<input type="text" class="text_field" name="firstname" value="{{User.firstname}}" required>
+									</div>
+
+									<div class="form-group">
+										<label for="lastname">Last Name</label>
+										{{!-- <input type="text" id="lname" class="text_field" placeholder="Last Name"
+											value="{{User.lastname}}"> --}}
+										<input type="text" class="text_field" name="lastname" value="{{User.lastname}}" required>
+									</div>
+
+									{{!-- <div class="form-group">
+										<label for="username">Username</label>
+										<input type="text" id="dname" class="text_field" placeholder="Display Name"
+											value="{{User.username}}">
+									</div> --}}
+
+									{{!-- <div class="form-group">
+										
+										<input type="hidden" type="text" id="dname" class="text_field" placeholder="Display Name"
+											value="{{User.password}}">
+									</div> --}}
+
+
+									{{!-- <label>Gender</label>
+									<div class="search__select select-wrap">
+										<select name="gender" class="select--field" id="blah" value="{{gender}}"
+											required>
+											<option value="male">Male</option>
+											<option value="female">Female</option>
+										</select>
+										<span class="lnr lnr-chevron-down"></span>
+									</div>
+									<br> --}}
+
+									<div class="form-group">
+										<label for="emailad">Email</label>
+										{{!-- <input type="text" id="emailad" class="text_field" placeholder="Email address"
+											value="{{User.email}}"> --}}
+										<input type="text" class="text_field" name="email" value="{{User.email}}" required>
+									</div>
+
+									<div class="form-group">
+										<label for="dname">Phone Number</label>
+										{{!-- <input type="text" id="dname" class="text_field" placeholder="Display Name"
+											value="{{User.phoneno}}"> --}}
+										<input type="text" class="text_field" name="phoneno" value="{{User.phoneno}}" required>
+									</div>
+
+
+								</div>
+								<!-- end /.information_wrapper -->
+							</div>
+							<!-- end /.information__set -->
+						</div>
+						<!-- end /.information_module -->
+
+						<div class="dashboard_setting_btn">
+							<button type="submit" class="btn btn--round btn--md">Save Changes</button>
+						</div>
+					</div>
+					<!-- end /.col-md-12 -->
+				</div>
+				<!-- end /.row -->
+			</form>
+			<!-- end /form -->
+			<br><br>
+			<div class="row">
+				<div class="col-md-12">
+					<div class="dashboard_title_area">
+						<div class="dashboard__title">
+							{{!-- <h5 style="color: red;"><span class="lnr lnr-trash"></span> Delete Account</h5> --}}
+
+
+							<form action="/user/deleteaccount/{{User.id}}" method="POST" style="display: inline-block;">
+                                <button type="button" style="color: red; border:none; background: none; display: inline-block;" 
+								data-toggle="modal" data-target="#myModal_{{User.id}}"> <span class="lnr lnr-trash"></span> Delete Account </button>
+                                <!-- The Modal -->
+                                <div class="modal" id="myModal_{{User.id}}">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+
+                                            <!-- Modal Header -->
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Delete Confirmation</h4>
+                                                <button type="button" class="close"
+                                                    data-dismiss="modal">&times;</button>
+                                            </div>
+
+                                            <!-- Modal body -->
+                                            <div class="modal-body">
+                                                Are you sure you want to delete your account? This action cannot be undone.
+                                            </div>
+
+                                            <!-- Modal footer -->
+                                            <div class="modal-footer">
+                                              
+                                                <button type="submit" value="Delete"
+                                                    class="btn btn--round btn--md">Delete</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                           
+                        
+                        </div>
+
+
+						</div>
+					</div>
+				</div>
+				<!-- end /.col-md-12 -->
+			</div>
+
+		</div>
+		<!-- end /.container -->
+	</div>
+	<!-- end /.dashboard_menu_area -->
+</section>
