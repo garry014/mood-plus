@@ -1,0 +1,88 @@
+const LocalStrategy = require('passport-local').Strategy;
+const RememberMeStrategy = require('passport-remember-me').Strategy;
+const bcrypt = require('bcrypt');
+// Load user model
+const User = require('../models/User');
+
+//from documentation not working
+// passport.use(new LocalStrategy({ usernameField: 'username', passReqToCallback: true }, (req, username, password, done) => {
+//     // passport.use(new LocalStrategy(
+//     function(username, password, done) {
+
+//         User.findOne({
+//             where: { username: username, usertype: req.body.usertype }
+//         }). then (function (err, user) {
+//             console.log("here" ,user)
+//             if (err) { return done(err); }
+//             if (!user) { return done(null, false); }
+//             if (!user.verifyPassword(password)) { return done(null, false); }
+//         return done(null, user);
+//         });
+//     }
+// }));
+
+function localStrategy(passport) {
+    passport.use(new LocalStrategy({ usernameField: 'username', passReqToCallback: true }, (req, username, password, done) => {
+        console.log("username: ", username)
+        User.findOne({
+            where: { username: username, usertype: req.body.usertype }
+        })
+            .then(user => {
+                
+                if (!user) {
+                    return done(null, false, { message: 'No User Found' });
+                }
+                // Match password
+                console.log("user: ",user.password)
+                bcrypt.compare(password, user.password, (err, isMatch) => {
+                    if (err) throw err;
+                    console.log("user: ",user)
+                    if (isMatch) {
+                        console.log("at 23")
+                        return done(null, user);
+                    } else {
+                        return done(null, false, { message: 'Password incorrect' });
+                    }
+                })
+            })
+    }));
+    // passport.use(new RememberMeStrategy(
+    //     function (token, done) {
+    //         Token.consume(token, function (err, user) {
+    //             if (err) { return done(err); }
+    //             if (!user) { return done(null, false); }
+    //             return done(null, user);
+    //         });
+    //     },
+    //     function (user, done) {
+    //         var token = utils.generateToken(64);
+    //         Token.save(token, { userId: user.id }, function (err) {
+    //             if (err) { return done(err); }
+    //             return done(null, token);
+    //         });
+    //     }
+    // ));
+
+    // Serializes (stores) user id into session upon successful
+    // authentication
+    passport.serializeUser((User, done) => {
+        console.log("at 50" , User)
+        done(null, User.id); // user.id is used to identify authenticated user
+        console.log("at 52")
+    });
+    // User object is retrieved by userId from session and
+    // put into req.user
+    passport.deserializeUser((username, done) => {
+        console.log("at 55")
+        User.findByPk(username)
+            .then((user) => {
+                done(null, user); // user object saved in req.session
+            })
+            .catch((done) => { // No user found, not stored in req.session
+                console.log(done);
+            });
+    });
+
+}
+
+module.exports = { localStrategy };
