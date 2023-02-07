@@ -154,8 +154,6 @@ router.post('/create_thread', async (req, res) => {
     let { title, post, category } = req.body;
     let errors = [];
     const username = "ducker";
-    console.log(req.headers['user-agent'])
-    console.log(req.ip)
 
     if (title.length <=5) {
         errors.push({msg: 'Thread title should be at least 5 letters or more.'})
@@ -182,6 +180,9 @@ router.post('/create_thread', async (req, res) => {
     if (errors.length > 0){
         res.render('forum/create_thread', { 
             errors: errors,
+            thread_title: title,
+            post: post,
+            category: category,
             title: "Create new thread" 
         })
     }
@@ -312,6 +313,7 @@ router.post('/update_thread/:id', async (req, res) => {
         })
         .then((threadDetails) => {
             if (threadDetails) {
+                threadDetails.post = post;
                 res.render('forum/update_thread', {
                     title: "Update thread",
                     errors: errors,
