@@ -74,9 +74,12 @@
                     <div class="support_thread_list cardify">
                         <div class="support_thread--single">
                             <div class="support_thread_info">
-                                <a href="/forum/view_thread/{{id}}" class="support_title">{{title}}
-                                    {{#if isPinned}}<span class="pinned">Pinned</span>{{/if}}
-                                </a>
+                                <div class="summarytooltip">
+                                    <a href="/forum/view_thread/{{id}}" class="support_title">{{title}}
+                                        {{#if isPinned}}<span class="pinned">Pinned</span>{{/if}}
+                                    </a>
+                                    <span class="tooltiptext"><b>Summary:</b> My psychiatrist recently started me back on Quetipine but on a very low dose 3x a day.</span>
+                                </div>
                                 <div class="suppot_query_tag">
                                     <a href="#" class="user">
                                         <img class="poster_avatar" src="images/support_avat1.png" alt="Support Avatar"> {{username}} </a>
@@ -87,7 +90,7 @@
                             <!-- end .support_thread_info -->
 
                             <div class="support_thread_meta">
-                                <ul>
+                                {{!-- <ul>
                                     <li class="answer_time">
                                         <img src="/images/support_avat4.png" alt="Support images">  
                                     </li>
@@ -99,7 +102,7 @@
                                         <p class="number">6</p>
                                         <span>replies</span>
                                     </li>
-                                </ul>
+                                </ul> --}}
                             </div>
                             <!-- end .support_thread_meta -->
                         </div>
