@@ -1,6 +1,6 @@
 // Handlebars Helpers
 const alertMessage = require('../helpers/messenger');
-const Chat = require('../models/Chat');
+// const Chat = require('../models/Chat');
 
 // Other Requires
 const express = require('express');

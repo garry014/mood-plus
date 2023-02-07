@@ -86,6 +86,8 @@ Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
 	}
 });
 
+Handlebars.registerHelper('eq', (a, b) => a == b);
+
 var paginate = require('handlebars-paginate');
 Handlebars.registerHelper('paginate', paginate);
 

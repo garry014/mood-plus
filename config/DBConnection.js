@@ -1,7 +1,7 @@
 const mySQLDB = require('./DBConfig');
 const thread = require('../models/Thread');
 const posts = require('../models/Post');
-const chat = require('../models/Chat');
+// const chat = require('../models/Chat');
 const User = require('../models/User');
 
 
