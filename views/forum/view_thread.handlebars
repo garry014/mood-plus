@@ -297,6 +297,23 @@
                         </div>
                         <!-- end /.collapsible_content -->
                     </div>
+                    <div class="sidebar-card card--top_discussion">
+                            <div class="card-title">
+                                <h4>Translate Text</h4>
+                            </div>
+                            <br>
+                            <div class="collapsible-content">
+                                <div id="google_translate_element" style="font-family: 'Quicksand', sans-serif;"></div>
+                                <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+                                <script>
+                                    function googleTranslateElementInit() {
+                                        new google.translate.TranslateElement({ pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.SIMPLE }, 'google_translate_element');
+                                    }
+                                </script>
+                            </div>
+                            <br>
+                            <!-- end /.collapsible_content -->
+                        </div>
                         <!-- end /.collapsible_content -->
                     </div>
                     <!-- end .card--forum_categories -->
