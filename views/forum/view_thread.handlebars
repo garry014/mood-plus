@@ -38,7 +38,7 @@
                 <div class="forum_detail_area ">
                     <div class="cardify forum--issue">
                         <div class="title_vote clearfix">
-                            <h3><button onclick="listen('currentThreadPost')" title="Listen to text"><span class="lnr lnr-volume-medium"></span></button> {{threadDetails.title}}</h3>
+                            <h3>{{threadDetails.title}}</h3>
                             <div class="filter__menu">
                                 {{#if user}}
                                 <div class="filter__menu_icon">
@@ -101,12 +101,13 @@
                                 <span class="support_tag" style="background-color:red;">marked as inappropriate | appeal rejected</span>
                                 {{/ifCond}}
                             {{else}}
-                            <span class="support_tag">{{threadDetails.category}}</span>
+                            <span class="support_tag" style="background-color:#f3ecfb; color: #8c68c9">{{threadDetails.category}}</span>
                             {{#ifCond threadDetails.usertype '!=' 'customer'}}
                                 <span class="support_tag" style="background-color:#0674ec">{{threadDetails.usertype}}</span>
                             {{/ifCond}}
                             {{/if}}
                         </div>
+                        <button onclick="readAloud('currentThreadPost')" title="Listen to text" id="audio-button-thread" class="audio-button"><span class="lnr lnr-volume-medium"></span> Read Thread Aloud</button>
                         <div id="currentThreadPost"></div>
                         {{#if threadDetails.editedBy}}
                             <span style="float:right"><i>Last edited by <a href="#" class="user">{{threadDetails.editedBy}}</a> on {{threadDetails.editTime}}</i></span>
@@ -180,6 +181,7 @@
                                 </div>
                                 <!-- end .vote -->
                                 <br>
+                                <button onclick="readAloud('post-{{id}}')" title="Listen to text" id="audio-button-post{{id}}" class="audio-button"><span class="lnr lnr-volume-medium"></span> Read Post Aloud</button>
                                 <div id="post-{{id}}"></div>
                             </div>
                             <!-- end .reply_content -->
@@ -311,37 +313,7 @@
         END DASHBOARD AREA
 =================================-->
 
-<!-- Delete Modal -->
-<form action="/tailor/deleteProduct/{{id}}" style="display: inline-block;">
-    <!-- The Modal -->
-    <div class="modal" id="myModal_{{id}}">
-      <div class="modal-dialog">
-        <div class="modal-content">
-
-          <!-- Modal Header -->
-          <div class="modal-header">
-                <h4 class="modal-title">Delete Confirmation</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-          </div>
-
-          <!-- Modal body -->
-          <div class="modal-body">
-            Are you sure you want to delete {{name}}
-          </div>
-
-          <!-- Modal footer -->
-          <div class="modal-footer">
-           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-              <button type="submit" value="Delete" class="btn btn-danger">Delete</button>
-          </div>
-
-        </div>
-      </div>
-    </div>
-</form>
-
 <script src="/js/speechToText.js"></script>
-<script src="/js/readAloud.js"></script>
 <script>
     document.getElementById('currentThreadPost').innerHTML += decodeHtml("{{threadDetails.post}}")
 
@@ -362,4 +334,107 @@
         txt.innerHTML = html;
         return txt.value;
     }
+
+    var audioButton_thread = document.getElementById("audio-button-thread");
+    {{#each posts}}
+    var audioButton_post{{id}} = document.getElementById("audio-button-post{{id}}");
+    {{/each}}
+    var playing = false;
+    var utterance;
+    function readAloud(divId){
+        var divText = document.getElementById(divId).innerText;
+        utterance = new SpeechSynthesisUtterance(divText);
+
+        //modify it as you normally would
+        var voiceArr = speechSynthesis.getVoices();
+        utterance.voice = voiceArr[2];
+
+        if(divId == "currentThreadPost"){
+            audioButton_thread.innerHTML = '<i class="fa fa-stop-circle"></i> Stop Reading Thread';
+            audioButton_thread.style.background = '#ff6c6c';
+        }
+        
+
+        //pass it into the chunking function to have it played out.
+        //you can set the max number of characters by changing the chunkLength property below.
+        //a callback function can also be added that will fire once the entire text has been spoken.
+
+        if (speechSynthesis.speaking) {
+            // SpeechSyn is currently speaking, cancel the current utterance(s)
+            speechSynthesis.cancel();
+            stopReading(divId);
+        }
+        else {
+            // Good to go
+            speechUtteranceChunker(utterance, {
+                chunkLength: 120
+            }, function () {
+                //some code to execute when done
+                console.log('done');
+                stopReading(divId);
+            });
+        }
+    }
+
+    function stopReading(divId) {
+        audioButton_thread.innerHTML = '<span class="lnr lnr-volume-medium"></span> Read Thread';
+        audioButton_thread.style.background = '#7844c4';
+    }
+
+    var newUtt;
+    var speechUtteranceChunker = function (utt, settings, callback) {
+        settings = settings || {};
+        var txt = (settings && settings.offset !== undefined ? utt.text.substring(settings.offset) : utt.text);
+        if (utt.voice && utt.voice.voiceURI === 'native') { // Not part of the spec
+            newUtt = utt;
+            newUtt.text = txt;
+            newUtt.addEventListener('end', function () {
+                if (speechUtteranceChunker.cancel) {
+                    speechUtteranceChunker.cancel = false;
+                }
+                if (callback !== undefined) {
+                    callback();
+                }
+            });
+        }
+        else {
+            var chunkLength = (settings && settings.chunkLength) || 160;
+            var pattRegex = new RegExp('^[\\s\\S]{' + Math.floor(chunkLength / 2) + ',' + chunkLength + '}[.!?,]{1}|^[\\s\\S]{1,' + chunkLength + '}$|^[\\s\\S]{1,' + chunkLength + '} ');
+            var chunkArr = txt.match(pattRegex);
+    
+            if (chunkArr[0] === undefined || chunkArr[0].length <= 2) {
+                //call once all text has been spoken...
+                if (callback !== undefined) {
+                    callback();
+                }
+                return;
+            }
+            var chunk = chunkArr[0];
+            newUtt = new SpeechSynthesisUtterance(chunk);
+            var x;
+            for (x in utt) {
+                if (utt.hasOwnProperty(x) && x !== 'text') {
+                    newUtt[x] = utt[x];
+                }
+            }
+            newUtt.addEventListener('end', function () {
+                if (speechUtteranceChunker.cancel) {
+                    speechUtteranceChunker.cancel = false;
+                    return;
+                }
+                settings.offset = settings.offset || 0;
+                settings.offset += chunk.length - 1;
+                speechUtteranceChunker(utt, settings, callback);
+            });
+        }
+    
+        if (settings.modifier) {
+            settings.modifier(newUtt);
+        }
+        console.log(newUtt); //IMPORTANT!! Do not remove: Logging the object out fixes some onend firing issues.
+        //placing the speak invocation inside a callback fixes ordering and onend issues.
+        setTimeout(function () {
+            speechSynthesis.speak(newUtt);
+        }, 0);
+    };
 </script>

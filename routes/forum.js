@@ -982,8 +982,7 @@ router.get('/speechToText', async (req, res) => {
             { headers: { authorization: '8c956f51c71f4887b7f99006049dd595' } }
         ); 
         const { data } = response;
-        // console.log(data);
-        console.log("Please dont spam this speech to text feature, it's pay per use :/")
+        console.log(`One-time key granted, may start using API.`);
         res.json(data);
     } catch (error) {
       const {response: {status, data}} = error;

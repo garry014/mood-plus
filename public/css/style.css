@@ -16159,3 +16159,24 @@ span.counter {
 .summarytooltip:hover .tooltiptext {
   visibility: visible;
 }
+
+.audio-button {
+  display: inline-block;
+  line-height: 26px;
+  border-radius: 200px;
+  padding: 0 12px;
+  color: #ffffff;
+  background-color: #7347c1;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease-in-out;
+}
+
+.audio-button:hover {
+  transform: scale(1.1);
+}
+
+.audio-button:active {
+  background-color: #fff;
+  color: #333;
+}
