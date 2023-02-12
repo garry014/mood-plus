@@ -452,6 +452,22 @@ router.post('/update_thread/:id', ensureAuthenticated, async (req, res) => {
     }
 });
 
+// GET: Close Thread
+router.get('/close_thread/:id', ensureAuthenticated, async (req, res) => {
+	let { post } = req.body;
+    let errors = [];
+    const username = req.user.dataValues.username;
+    
+    Thread.update({
+        isClosed: true
+    }, {
+        where: { id: req.params.id, username: username }
+    })
+        .catch(err => console.log(err));
+    alertMessage(res, 'success', 'Successfully closed thread.', 'alert_icon lnr lnr-checkmark-circle', true);
+    res.redirect('/forum/view_thread/' + req.params.id);
+});
+
 // Delete Thread
 router.get('/delete_thread/:id', ensureAuthenticated, (req, res) => {
     const username = req.user.dataValues.username

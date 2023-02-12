@@ -76,7 +76,7 @@
                                 <div class="support_thread--single">
                                     <div class="support_thread_info">
                                         {{#ifCond username '==' ../user.username}}
-                                        <a href="/forum/view_thread/{{id}}" class="support_title">{{title}}
+                                        <a href="/forum/view_thread/{{id}}" class="support_title">{{#if isClosed}}<i class="fa fa-lock" aria-hidden="true"></i> {{/if}}{{title}}
                                             {{#if isPinned}}<span class="pinned">Pinned</span>{{/if}}
                                         </a>
                                         {{else}}
@@ -99,7 +99,7 @@
                             <div class="support_thread--single">
                                 <div class="support_thread_info">
                                     <div class="summarytooltip">
-                                        <a href="/forum/view_thread/{{id}}" class="support_title">{{title}}
+                                        <a href="/forum/view_thread/{{id}}" class="support_title">{{#if isClosed}}<i class="fa fa-lock" aria-hidden="true"></i> {{/if}}{{title}}
                                             {{#if isPinned}}<span class="pinned">Pinned</span>{{/if}}
                                         </a>
                                         <span class="tooltiptext"><b>Summary:</b> {{summary}}...</span>

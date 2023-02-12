@@ -214,29 +214,33 @@
 
                         <div class="comment-form-area">
                             {{#if user}}
-                            <h4>Post</h4>
-                            <!-- comment reply -->
-                            <div class="media comment-form support__comment">
-                                <div class="media-body">
-                                    <form class="comment-reply-form" method="POST">
-                                        <div id="trumbowyg-demo"></div>
-                                        <textarea id="post" name="post" style="display:none;"></textarea>
-                                        <input type="hidden" id="custId" name="postCount" value="{{postCount}}">
-                                        <!-- Voice to Text -->
-                                        <script src="https://www.WebRTC-Experiment.com/RecordRTC.js"></script>
-                                        <div class="real-time-interface">
-                                            <button id="voiceTranscriptButton" type="button" class="btn btn--icon btn-sm btn--round btn-secondary">
-                                                <span class="lnr lnr-mic"></span> Start Voice Transcript
-                                            </button>
-                                            <p id="message" class="real-time-interface__message"></p>
-                                        </div>
-                                        <!-- voice to text -->
-                                        <span class="lnr lnr-menu-circle"></span> To ensure Mood+ remains a safe space for all, your post will be vetted by our Artifical Intelligence.<br>
-                                        <button onclick="submitForm()" style="float: right;" class="btn btn--md btn-primary">Post Comment</button>
-                                        <br><br>
-                                    </form>
+                                {{#if threadDetails.isClosed}}
+                                <i>Thread is closed by the author.</i>
+                                {{else}}
+                                <h4>Create a new post</h4>
+                                <!-- comment reply -->
+                                <div class="media comment-form support__comment">
+                                    <div class="media-body">
+                                        <form class="comment-reply-form" method="POST">
+                                            <div id="trumbowyg-demo"></div>
+                                            <textarea id="post" name="post" style="display:none;"></textarea>
+                                            <input type="hidden" id="custId" name="postCount" value="{{postCount}}">
+                                            <!-- Voice to Text -->
+                                            <script src="https://www.WebRTC-Experiment.com/RecordRTC.js"></script>
+                                            <div class="real-time-interface">
+                                                <button id="voiceTranscriptButton" type="button" class="btn btn--icon btn-sm btn--round btn-secondary">
+                                                    <span class="lnr lnr-mic"></span> Start Voice Transcript
+                                                </button>
+                                                <p id="message" class="real-time-interface__message"></p>
+                                            </div>
+                                            <!-- voice to text -->
+                                            <span class="lnr lnr-menu-circle"></span> To ensure Mood+ remains a safe space for all, your post will be vetted by our Artifical Intelligence.<br>
+                                            <button onclick="submitForm()" style="float: right;" class="btn btn--md btn-primary">Post Comment</button>
+                                            <br><br>
+                                        </form>
+                                    </div>
                                 </div>
-                            </div>
+                                {{/if}}
                             {{else}}
                             <button class="btn btn-lg" onclick="location.href='/user/login';"><span class="lnr lnr-lock"></span> Login to Post</button>
                             {{/if}}
