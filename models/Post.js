@@ -3,9 +3,12 @@ const db = require('../config/DBConfig');
 
 const Post = db.define('post',{
     post:{
-        type:Sequelize.STRING(2000)
+        type:Sequelize.STRING(5000)
     },
     username:{
+        type:Sequelize.STRING
+    },
+    usertype:{
         type:Sequelize.STRING
     },
     timestamp:{

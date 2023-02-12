@@ -71,46 +71,78 @@
                     <!-- end .thread_sort_area -->
 
                     {{#each threads}}
-                    <div class="support_thread_list cardify">
-                        <div class="support_thread--single">
-                            <div class="support_thread_info">
-                                <div class="summarytooltip">
-                                    <a href="/forum/view_thread/{{id}}" class="support_title">{{title}}
-                                        {{#if isPinned}}<span class="pinned">Pinned</span>{{/if}}
-                                    </a>
-                                    <span class="tooltiptext"><b>Summary:</b> My psychiatrist recently started me back on Quetipine but on a very low dose 3x a day.</span>
-                                </div>
-                                <div class="suppot_query_tag">
-                                    <a href="#" class="user">
-                                        <img class="poster_avatar" src="images/support_avat1.png" alt="Support Avatar"> {{username}} </a>
-                                    <span>{{timestamp}}</span>
-                                    <span class="support_tag">{{category}}</span> <!--color code tags-->
+                        {{#if hiddenReason}}
+                            <div class="support_thread_list cardify">
+                                <div class="support_thread--single">
+                                    <div class="support_thread_info">
+                                        {{#ifCond username '==' ../user.username}}
+                                        <a href="/forum/view_thread/{{id}}" class="support_title">{{title}}
+                                            {{#if isPinned}}<span class="pinned">Pinned</span>{{/if}}
+                                        </a>
+                                        {{else}}
+                                        <a href="#" class="support_title"><i>This thread is marked as inappropriate.</i>
+                                            {{#if isPinned}}<span class="pinned">Pinned</span>{{/if}}
+                                        </a>
+                                        {{/ifCond}}
+                                        <div class="suppot_query_tag">
+                                            <a href="#" class="user">
+                                                <img class="poster_avatar" src="/images/usr_avatar.png" alt="Support Avatar"> {{username}} </a>
+                                            <span>{{timestamp}}</span>
+                                            <span class="support_tag">{{category}}</span> <!--color code tags-->
+                                        </div>
+                                    </div>
+                                    <!-- end .support_thread_info -->
                                 </div>
                             </div>
-                            <!-- end .support_thread_info -->
+                        {{else}}
+                        <div class="support_thread_list cardify">
+                            <div class="support_thread--single">
+                                <div class="support_thread_info">
+                                    <div class="summarytooltip">
+                                        <a href="/forum/view_thread/{{id}}" class="support_title">{{title}}
+                                            {{#if isPinned}}<span class="pinned">Pinned</span>{{/if}}
+                                        </a>
+                                        <span class="tooltiptext"><b>Summary:</b> {{summary}}...</span>
+                                    </div>
+                                    <div class="suppot_query_tag">
+                                        <a href="#" class="user">
+                                            <img class="poster_avatar" src="/images/usr_avatar.png" alt="Support Avatar"> 
+                                                {{#if name}}
+                                                {{name}}
+                                                {{else}}
+                                                {{username}}
+                                                {{/if}}
+                                            </a>
+                                        <span>{{timestamp}}</span>
+                                        <span class="support_tag">{{category}}</span> <!--color code tags-->
+                                    </div>
+                                </div>
+                                <!-- end .support_thread_info -->
 
-                            <div class="support_thread_meta">
-                                {{!-- <ul>
-                                    <li class="answer_time">
-                                        <img src="/images/support_avat4.png" alt="Support images">  
-                                    </li>
-                                    <li>
-                                        <p class="number">2</p>
-                                        <span>votes</span>
-                                    </li>
-                                    <li>
-                                        <p class="number">6</p>
-                                        <span>replies</span>
-                                    </li>
-                                </ul> --}}
+                                {{!-- <div class="support_thread_meta">
+                                    <ul>
+                                        <li class="answer_time">
+                                            <img src="/images/support_avat4.png" alt="Support images">  
+                                        </li>
+                                        <li>
+                                            <p class="number">2</p>
+                                            <span>votes</span>
+                                        </li>
+                                        <li>
+                                            <p class="number">6</p>
+                                            <span>replies</span>
+                                        </li>
+                                    </ul>
+                                </div> --}}
+                                <!-- end .support_thread_meta -->
                             </div>
-                            <!-- end .support_thread_meta -->
+                            <!-- end .support_thread--single -->
                         </div>
-                        <!-- end .support_thread--single -->
-                    </div>
+                        {{/if}}
                     {{else}}
                     The forum is looking empty, be the first one to post!
                     {{/each}}
+                    
                     <!-- end .support_thread_list -->
                     
                     {{#if threads}}
@@ -137,9 +169,15 @@
 
             <div class="col-lg-4">
                 <aside class="sidebar support--sidebar">
+                    {{#if user.firstname}}
                     <a href="/forum/create_thread" class="login_promot">
                         <span class="lnr lnr-pencil"></span>Create New Thread
                     </a>
+                    {{else}}
+                    <a href="/user/login" class="login_promot">
+                        <span class="lnr lnr-lock"></span>Login to Create Thread
+                    </a>
+                    {{/if}}
 
                     <!--<span class="lnr lnr-lock"></span>Login to Ask a Question-->
 

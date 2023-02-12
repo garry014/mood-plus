@@ -384,6 +384,7 @@ io.on("connection", async function(socket){
 // Bring in database connection
 const moodplusDB = require('./config/DBConnection');
 // Connects to MySQL database
+// RESET DB - PUT true
 moodplusDB.setUpDB(false); 
 
 app.use(function (req, res, next) {

@@ -394,7 +394,7 @@ router.get('/profile/:id',  ensureAuthenticated, (req, res)=> {
 	console.log("in here 182")
 	User.findOne({
 		where: {
-			id: req.params.id,
+			id: req.user.dataValues.id,
 		},
 		raw: true
 	}).then((Customer) => {

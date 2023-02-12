@@ -90,7 +90,7 @@
                                                         <li>
                                                             <a href="/forum?category=Others">Others</a>
                                                         </li>
-                                                        {{#if (eq user.usertype "admin")}}
+                                                        {{#ifCond user.usertype '==' "admin"}}
                                                         <li class="title"><b>Moderation</b></li>
                                                         <li>
                                                             <a href="/forum/moderate_appeals">Manage Appeal Requests</a>
@@ -98,7 +98,7 @@
                                                         <li>
                                                             <a href="/forum/moderate_reports">Manage Reports</a>
                                                         </li>
-                                                        {{/if}}
+                                                        {{/ifCond}}
                                                     </ul>
                                                 </div>
                                             </li>
@@ -183,7 +183,7 @@
                                     </div>
                                 {{else}}
                                     <div class="autor__info">
-                                        <a href="/user/login">Sign In{{user.username}}</a>
+                                        <a href="/user/login">Sign In</a>
                                     </div>
                                 </div>
                                 {{/if}}

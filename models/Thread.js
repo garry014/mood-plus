@@ -6,12 +6,15 @@ const Thread = db.define('thread',{
         type:Sequelize.STRING
     },
     post:{
-        type:Sequelize.STRING(2000)
+        type:Sequelize.STRING(5000)
     },
     summary:{
-        type:Sequelize.STRING(100)
+        type:Sequelize.STRING(500)
     },
     username:{
+        type:Sequelize.STRING
+    },
+    usertype:{
         type:Sequelize.STRING
     },
     category:{

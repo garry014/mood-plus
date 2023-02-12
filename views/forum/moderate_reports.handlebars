@@ -41,7 +41,7 @@
                     <div class="modules__content">
                         <div class="withdraw_module withdraw_history">
                             <div class="withdraw_table_header">
-                                <h3>Appeals</h3>
+                                <h3>Reports</h3>
                             </div>
                             <div class="table-responsive">
                                 <table class="table withdraw__table">
@@ -61,9 +61,9 @@
                                             <td id="post-{{id}}">{{post}}</td>
                                             <td>{{classification}}</td>
                                             <td>
-                                                <a href="/forum/set_report/accepted/{{type}}/{{id}}"><span class="lnr lnr-thumbs-up"></span></a> &nbsp;&nbsp;
+                                                <a href="/forum/set_report/accepted/{{type}}/{{id}}" title="Accept Report"><span class="lnr lnr-thumbs-up"></span></a> &nbsp;&nbsp;
                                                 {{!-- <a href="/forum/set_report/edit/{{type}}/{{id}}"><span class="lnr lnr-pencil"></span></a> &nbsp;&nbsp; --}}
-                                                <a href="/forum/set_report/rejected/{{type}}/{{id}}"><span class="lnr lnr-cross" style="color: red;"></span></a>
+                                                <a href="/forum/set_report/rejected/{{type}}/{{id}}" title="Decline Report"><span class="lnr lnr-cross" style="color: red;"></span></a>
                                             </td>
                                         </tr>
                                         {{/each}}

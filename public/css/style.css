@@ -12195,7 +12195,7 @@ span.counter {
 
 .support_thread_list .support_thread--single .support_thread_info {
   float: left;
-  width: calc(100% - 260px);
+  width: calc(100%);
 }
 
 .support_thread_list .support_thread--single .support_thread_meta {
@@ -16137,7 +16137,7 @@ span.counter {
   color: #fff;
   text-align: center;
   border-radius: 6px;
-  padding: 5px 0;
+  padding: 15px 15px 15px 15px;
   position: absolute;
   z-index: 1;
   bottom: 150%;
