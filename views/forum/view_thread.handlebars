@@ -49,7 +49,10 @@
                                     <ul class="filter_dropdown dropdown-menu" aria-labelledby="drop1">
                                         <li>
                                             {{#ifCond threadDetails.username '==' user.username}}
-                                            <a href="/forum/update_thread/{{threadDetails.id}}"><span class="lnr lnr-pencil"></span> Edit</a>
+                                                {{#unless threadDetails.isClosed}}
+                                                <a href="/forum/update_thread/{{threadDetails.id}}"><span class="lnr lnr-pencil"></span> Edit</a>
+                                                <a href="/forum/close_thread/{{threadDetails.id}}"><span class="lnr lnr-lock"></span> Close Thread</a>
+                                                {{/unless}}
                                             {{/ifCond}}
                                             {{#ifCond user.usertype '==' "admin"}}
                                             <a href="/forum/update_thread/{{threadDetails.id}}"><span class="lnr lnr-pencil"></span> Edit</a>
