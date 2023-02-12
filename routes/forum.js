@@ -452,7 +452,7 @@ router.post('/update_thread/:id', ensureAuthenticated, async (req, res) => {
     }
 });
 
-// GET: Close Thread
+// Close Thread
 router.get('/close_thread/:id', ensureAuthenticated, async (req, res) => {
 	let { post } = req.body;
     let errors = [];

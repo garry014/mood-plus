@@ -58,11 +58,6 @@
                                             <a href="/forum/update_thread/{{threadDetails.id}}"><span class="lnr lnr-pencil"></span> Edit</a>
                                             {{/ifCond}}
                                         </li>
-                                        {{#ifCond user.usertype '==' "admin"}}
-                                        <li>
-                                            <a href="/forum/pin_thread/{{threadDetails.id}}"><span class="lnr lnr-pushpin"></span> {{#if threadDetails.isPinned}}Unpin{{else}}Pin{{/if}}</a>
-                                        </li>
-                                        {{/ifCond}}
                                         <li>
                                             {{#ifCond threadDetails.username '==' user.username}}
                                             <a href="/forum/delete_thread/{{threadDetails.id}}"><span class="lnr lnr-trash"></span> Delete</a>
