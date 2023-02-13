@@ -400,6 +400,7 @@ io.on("connection", async function(socket){
 	// Seperate CHAT with humans | chat with BOT, if not the same user will get the message twice if both tabs are opened
 	socket.on('bot_receive_message', async (msg) => {
 		console.log(socket.username + ': ' + msg);
+		io.emit('bot_send_message', {message: msg, user: socket.username});
 		// TODO: Stacey call your model as an API HERE
 		let chatbotresponse = await get_chatbot_response(msg);
 		// kj add
@@ -421,7 +422,6 @@ io.on("connection", async function(socket){
 			response = "Okay! You may continue with the chatbot."
 		}
 		// kj end
-		io.emit('bot_send_message', {message: msg, user: socket.username});
 		// After that use this to emit (send) message back to client (browser).
 		io.emit('bot_send_message', {message: response, user: "Mood+"});
 		// End of TODO
