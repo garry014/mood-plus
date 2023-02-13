@@ -1,12 +1,18 @@
 // Handlebars Helpers
 const alertMessage = require('../helpers/messenger');
-// const Chat = require('../models/Chat');
+const Chat = require('../models/Chat');
+const Message = require('../models/Message');
+const Feedback = require('../models/Feedback');
+const User = require('../models/User.js');
 
 // Other Requires
 const express = require('express');
 const router = express.Router();
 const request = require('request');
 const axios = require("axios");
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
+const validator = require("email-validator");
 
 router.get('/', async (req, res) => {
     console.log("here")
