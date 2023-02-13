@@ -2,7 +2,12 @@
 
 
 --- Kai Jie ---
+// Counsellor Chat
+Customer: Hi
+Counsellor: Hello! I'm a counsellor, my name is Sandra. I can tell that you are currently going through a lot of stress and not feeling your best today. Would you like to share with me more about the problems you are having?
+Counsellor: Don’t worry if you are unsure about how to explain yourself! We will go through this together, take your time.
 
+// Feedback
 
 --- Gary ---
 // New Thread
