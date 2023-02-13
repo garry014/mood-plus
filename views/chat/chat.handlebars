@@ -133,13 +133,18 @@
                                 <input type="text" autocomplete="on" class="write_msg" id="message" name="message"
                                     placeholder="Type a message" style="padding-right: 120px;">
                             </grammarly-editor-plugin> --}}
-
-                            <div class="btns">
-                                <button class="btn send btn--sm btn--round">Send</button>
-
+                            <div class="btns" style="margin-bottom: 10px" >
+                                <button class="btn send btn--sm btn--round" style="display:inline-block">Send</button>
+                                <div id="counsellor_btn" style="display:inline-block; float: right;">
+                                    {{#ifCond user.chat '==' 'Shown'}}
+                                    <a href="/chat/newchat" class="btn btn--round btn--bordered btn-sm">Seek help from Counsellor</a>
+                                    {{/ifCond}}
+                                </div>
                             </div>
                         </form>
-
+                        <li style="text-align: right;">
+                            <a href="/chat/feedback"class="scolor" style="font-weight: bold;">Feedback</a>
+                        </li>
                         <div class="attached"></div>
 
 
@@ -182,7 +187,7 @@
 <script src="https://developer.emojidata.ai/static/plugin/autocomplete.js"></script>
 <script>
     // TODO: to change to actual login user.
-
+    const chat = "{{user.chat}}"
     const username = "{{user.firstname}}" //window.prompt("Enter the username");
     io.emit('new_user', username);
 
@@ -254,6 +259,12 @@
         conversation.appendChild(head);
         conversation.appendChild(body);
 
+        var idiv = document.createElement('div'); 
+        if(message =="yes" && chat != "Shown"){
+            idiv.innerHTML = '<a href="/chat/newchat" class="btn btn--round btn--bordered btn-sm">Seek help from Counsellor</a>';
+            counsellor.appendChild(idiv);
+        };
+        
         chat_area_body = document.getElementById("chat_area--conversation");
         chat_area_body.appendChild(conversation);
     }
