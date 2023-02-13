@@ -1,6 +1,7 @@
 <!--================================
     START BREADCRUMB AREA
 =================================-->
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 <section class="breadcrumb-area">
     <div class="container">
         <div class="row">
@@ -49,22 +50,22 @@
                     <div class="messaging__header">
                         <div class="messaging_menu">
                             <h4>Inbox</h4>
-                      
+
                         </div>
                         <!-- end /.messaging_menu -->
 
-                      
+
                         <!-- end /.messaging_action -->
                     </div>
                     <!-- end /.messaging__header -->
 
                     <div class="messaging__contents">
-                        
+
                         <div class="messages">
-                           
+
                             <div class="message active">
                                 <div class="message__actions_avatar">
-                                
+
                                     <div class="avatar">
                                         <img src="/images/logo.png" alt="logo image" class="img-fluid">
                                     </div>
@@ -85,7 +86,7 @@
                             </div>
                             <!-- end /.message -->
 
-                       
+
                         </div>
                         <!-- end /.messages -->
                     </div>
@@ -101,31 +102,47 @@
                         <h3>Message with
                             <span class="name">Mood+ Mental Health Chatbot</span>
                         </h3>
-                       
+
                     </div>
                     <!-- end /.chat_area--title -->
 
-                    <div class="chat_area--conversation" id="chat_area--conversation">
+                    <div class="chat_area--conversation" id="chat_area--conversation" style="height: 400px; overflow: auto; text-align:justify;">
                         <!-- Chat created using DOM will appear here --->
 
                     </div>
                     <!-- end /.chat_area--conversation -->
 
+                    {{!-- <div>
+                        <input id="mySelect" type="text" name="txt" value="Hello" onchange="myFunction()">
+                        <p id="demo"></p>
+                    </div> --}}
+                    
+                    {{!-- <input type="hidden" placeholder="Type a message" style="padding-right: 120px;" required> --}}
+
                     <div class="message_composer">
                         <form id="message_area" action="">
                             <!--onsubmit="return sendMessage();" class="contact-form-style" -->
-                            <input autocomplete="off" class="write_msg" id="message" name="message"
-                                placeholder="Type a message" type="text" style="padding-right: 120px;" required>
+                            <p style="font-size: 15px;">Enter TAB key to use autocomplete suggestion</p>
+                            <grammarly-editor-plugin config.documentDialect="british"
+                                config.suggestionCategories.oxfordComma="on">
+                            <div style=" background-color: rgb(195, 195, 195); padding: 10px; border-radius: 3px;"contenteditable="true" class="emojidata-autocomplete" 
+                            data-endpoint="/chat/autocomplete" data-depth="3" id="autocomplete-div-0" placeholder="Type a message">Type a message</div>
+                             </grammarly-editor-plugin>
+                            {{!-- <grammarly-editor-plugin config.documentDialect="british"
+                                config.suggestionCategories.oxfordComma="on">
+                                <input type="text" autocomplete="on" class="write_msg" id="message" name="message"
+                                    placeholder="Type a message" style="padding-right: 120px;">
+                            </grammarly-editor-plugin> --}}
 
                             <div class="btns">
                                 <button class="btn send btn--sm btn--round">Send</button>
-                                
+
                             </div>
                         </form>
 
                         <div class="attached"></div>
 
-                        
+
                         <!-- end /.message_composer -->
                     </div>
                     <!-- end /.message_composer -->
@@ -140,7 +157,21 @@
 <!--================================
         END MESSAGE AREA
 =================================-->
+<!-- emojidata autocomplete api testing  -->
 
+<!-- predictionary api testing not working -->
+{{!--
+<script>
+    //function myFunction() {
+    //    var x = document.getElementById("mySelect").value;
+    //    document.getElementById("demo").innerHTML = "You selected: " + x;
+    }
+
+    //let predictionary = Predictionary.instance();
+    predictionary.addWords(['apple', 'apricot', 'banana']);
+</script> --}}
+<!-- grammarly api testing -->
+<script src="https://unpkg.com/@grammarly/editor-sdk?clientId=client_1ihqdkpQn1sy4tKfiw5AQW"></script>
 <!-- Socket IO -->
 <script src="/socket.io/socket.io.js"></script>
 <script>//////////////////////// Socket IO ////////////////////////////////
@@ -148,19 +179,23 @@
 </script>
 <!-- end of Socket IO -->
 
+<script src="https://developer.emojidata.ai/static/plugin/autocomplete.js"></script>
 <script>
     // TODO: to change to actual login user.
+
     const username = "{{user.firstname}}" //window.prompt("Enter the username");
     io.emit('new_user', username);
 
     const messageForm = document.getElementById('message_area');
     const textInput = document.getElementById('message');
+    const autocomplete_textbox = document.getElementById('autocomplete-div-0');
 
-    messageForm.addEventListener('submit', function(e) {
+    messageForm.addEventListener('submit', function (e) {
         e.preventDefault();
-        if (textInput.value) {
+        
+        if (autocomplete_textbox.innerText) {
             // Send message TO server
-            io.emit('bot_receive_message', textInput.value);
+            io.emit('bot_receive_message', autocomplete_textbox.innerText);
             textInput.value = '';
         }
     });
@@ -205,7 +240,6 @@
 
         var span = document.createElement("span");
         span.className = "email";
-        {{!-- span.innerHTML = "jonathan@domain.com"; --}}
         nameTime.appendChild(span);
 
         head.appendChild(chatAvatar);
@@ -224,7 +258,7 @@
         chat_area_body.appendChild(conversation);
     }
 
-    function getDateTimeNow(){
+    function getDateTimeNow() {
         var today = new Date();
         var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         var date = today.getDate() + " " + months[today.getMonth()] + " " + today.getFullYear();
@@ -238,4 +272,7 @@
 
         return date + " at " + time;
     }
+
+    /////////// Autocomplete.js /////////////////////////
+
 </script>
