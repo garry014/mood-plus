@@ -27,6 +27,10 @@ const client = new OAuth2Client(IdTokenClient);
 // stacey add for model
 const request = require('request');
 
+// kj add
+const Chat = require('./models/Chat');
+const Message = require('./models/Message');
+
 /*
 * Loads routes file main.js in routes directory. The main.js determines which function
 * will be called based on the HTTP request and URL.
@@ -329,6 +333,36 @@ async function get_chatbot_response(msg) {
     });
 }
 
+// kj model
+async function risk_assessment(input) {
+    return new Promise(res => {
+        var predict = {
+            url : 'http://127.0.0.1:5000/riskAssessment',
+            json : true,
+            body : {
+                text : input
+            },
+            method : 'post'
+        };
+        request(predict, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+				// results = body.result.toString()
+                console.log(body.result.toString())
+                res(body.result.toString())
+            }
+
+            if (response){
+                console.log(`${response.statusCode} - ${error}`);
+            }
+            else{
+                console.log(console.error());
+            }
+            res("");
+        })
+    });
+	
+}
+
 // io.use(sharedsession(session));
 // add listener for new connection
 io.eio.pingTimeout = 60000;
@@ -368,17 +402,79 @@ io.on("connection", async function(socket){
 		console.log(socket.username + ': ' + msg);
 		// TODO: Stacey call your model as an API HERE
 		let chatbotresponse = await get_chatbot_response(msg);
-
+		// kj add
+		var response = ''
+		let prediction = await risk_assessment(msg);
+		if ((prediction.includes('non-suicidal')) || (prediction.includes('neutral'))){
+			response = chatbotresponse
+		} else {
+			response = "We have detected high suicidal rate based on the previous message sent. Would you want to speak to a human counsellor instead?"
+		}
+		if ((msg == "yes") || (msg == "Yes")) {
+			response = "Okay! You may click the 'Seek help from Counsellor' button below."
+			User.update({
+				chat: "Shown",
+			}, {
+				where: { firstname: socket.username }
+			})
+		} else if ((msg == "no") || (msg == "No")) {
+			response = "Okay! You may continue with the chatbot."
+		}
+		// kj end
 		io.emit('bot_send_message', {message: msg, user: socket.username});
 		// After that use this to emit (send) message back to client (browser).
-		io.emit('bot_send_message', {message: chatbotresponse, user: "Mood+"});
+		io.emit('bot_send_message', {message: response, user: "Mood+"});
 		// End of TODO
 	});
 	
 	socket.on('disconnect', () => {
 		console.log('User disconnected - Username: ' + socket.username + '. Unique ID: ' + socket.id);
 	});
+	////////////////////////kj added/////////////////////////////
+	socket.on("send_message", function(data){
+		// send event to receiver
+		var socketId = users[data.receiver];
+
+		var datetime = getToday();
+		data["timestamp"] = datetime;
+		data["sender"] = currentuser;
+		io.to(socketId).emit("new_message", data);
+
+		console.log(data.message)
+
+		// Save in db
+		Message.create({
+			sentby: data.sentby,
+			timestamp: datetime,
+			message: data.message,
+			chatId: data.chatid
+		}).catch(err => {
+			console.error('Unable to connect to the database:', err);
+		});
+
+		Chat.findOne({
+			where: { id: data.chatid },
+			raw: true
+		})
+		.catch(err => console.log(err));
+	});
 });
+function getToday() {
+	// Get Date
+	var currentdate = new Date();
+	const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+	var datetime = currentdate.getDate() + " "
+		+ monthNames[currentdate.getMonth()] + " "
+		+ currentdate.getFullYear() + " "
+		+ currentdate.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+	return datetime;
+}
+global.start_newchat = function(data){ 
+	var socketId = users[data.receiver];
+	data.timestamp = getToday();
+	io.to(socketId).emit("start_newchat", data);
+};
+////////////////////////kj added stop/////////////////////////////
 ////////////// END OF CHAT/SOCKET.IO - DONT PUT ANY OTHER CODES BELOW UNLESS NECCESSARY ////////////////
 
 // Bring in database connection
