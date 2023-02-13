@@ -86,6 +86,19 @@
                                             <li>
                                                 <a href="/chat"><span class="lnr lnr-bubble"></span> Chatbot</a>
                                             </li>
+						    {{#ifCond user.chat '==' 'Shown'}}
+						    <li>
+							<a href="/chat/newchat"></span> Counsellor Chat</a>
+						    </li>
+						    {{/ifCond}}
+                                            {{else if (eq user.usertype "counsellor") }}
+                                            <li>
+                                                <a href="/chat/c/inbox/0"><span class="lnr lnr-bubble"></span>Chat</a>
+                                            </li>
+                                            {{else if (eq user.usertype "admin") }}
+                                            <li>
+                                                <a href="/chat/allfeedbacks">Feedbacks</a>
+                                            </li>
                                             {{/if}}
                                         </ul>
                                     </div>
