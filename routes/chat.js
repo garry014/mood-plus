@@ -69,7 +69,7 @@ router.get('/newchat', ensureAuthenticated, (req, res) => {
 				sender : currentuser,
 				recipient : counsellor,
 				sendername: sendername,
-				recipientname: "Sandra Tan"
+				recipientname: "Wendy Tan"
 			})
 			.then(chat => {
 				const data = {receiver: counsellor, sender: currentuser, chatid: chat.id};
