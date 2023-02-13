@@ -14,18 +14,6 @@
                                     <img src="/images/logo.png" alt="logo image" class="img-fluid">
                                 </a>
                             </div> 
-                            {{else if (eq user.usertype "admin")}}
-                            <div class="logo">
-                                <a href="/homeadmin">
-                                    <img src="/images/logo.png" alt="logo image" class="img-fluid">
-                                </a>
-                            </div> 
-                            {{else if (eq user.usertype "counsellor")}}
-                            <div class="logo">
-                                <a href="/homecounsellor">
-                                    <img src="/images/logo.png" alt="logo image" class="img-fluid">
-                                </a>
-                            </div> 
                             {{else}}
                             <div class="logo">
                                 <a href="/">
@@ -51,22 +39,7 @@
                                     <!-- Collect the nav links, forms, and other content for toggling -->
                                     <div class="collapse navbar-collapse" id="navbarNav7">
                                         <ul class="navbar-nav">
-                                            {{!-- <li class="has_dropdown">
-                                                <a href="/">HOME</a>
-                                                <div class="dropdowns dropdown--menu">
-                                                    <ul>
-                                                        <li>
-                                                            <a href="index.html">Home Multi Vendor</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="index-single.html">Home Two Single User</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="index3.html">Home Three Product</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </li> --}}
+                                            
                                             <li class="has_dropdown">
                                                 <a href="/forum">Forum</a>
                                                 <div class="dropdowns dropdown--menu">
@@ -105,7 +78,11 @@
                                             <li>
                                                 <a href="contact.html">Quote of the Day</a>
                                             </li>
-					                        {{#if (eq user.usertype "customer")}}
+					    <li>
+                                                <a href="/others">Other Helplines</a>
+                                            </li>
+					    
+					    {{#if (eq user.usertype "customer")}}
                                             <li>
                                                 <a href="/chat"><span class="lnr lnr-bubble"></span> Chatbot</a>
                                             </li>
@@ -183,7 +160,7 @@
                                     </div>
                                 {{else}}
                                     <div class="autor__info">
-                                        <a href="/user/login">Sign In</a>
+                                        <a href="/user/login">Sign In{{user.username}}</a>
                                     </div>
                                 </div>
                                 {{/if}}
