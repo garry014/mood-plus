@@ -2,6 +2,9 @@
 
 
 --- Kai Jie ---
+// Risk Assessment Input
+Customer: I dont see a meaning to life anymore
+
 // Counsellor Chat
 Customer: Hi
 Counsellor: Hello! I'm a counsellor, my name is Sandra. I can tell that you are currently going through a lot of stress and not feeling your best today. Would you like to share with me more about the problems you are having?
