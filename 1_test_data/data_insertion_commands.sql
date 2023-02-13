@@ -17,3 +17,19 @@ INSERT INTO `moodplusdb`.`posts` (`id`, `post`, `username`, `usertype`, `timesta
 INSERT INTO `moodplusdb`.`posts` (`id`, `post`, `username`, `usertype`, `timestamp`, `hiddenReason`, `threadId`) VALUES ('104', '<p>Did she passed on peacefully at home?</p>', 'counsellor1', 'counsellor', '13 February 2023 10:24 PM', '', '100');
 INSERT INTO `moodplusdb`.`posts` (`id`, `post`, `username`, `usertype`, `timestamp`, `hiddenReason`, `threadId`) VALUES ('105', '<p>Yes she was at home , she looked so peaceful.</p>', 'customer2', 'customer', '13 February 2023 10:58 PM', '', '100');
 INSERT INTO `moodplusdb`.`posts` (`id`, `post`, `username`, `usertype`, `timestamp`, `hiddenReason`, `threadId`) VALUES ('106', '<p>Both my parents drank my sister a serious alcoholic died at age 66 heart attack</p>', 'customer1', 'customer', '13 February 2023 11:01 PM', '', '100');
+
+--FEEDBACKS
+INSERT INTO `moodplusdb`.`feedbacks` (`id`, `title`, `name`, `email`, `aifunction`, `satisfaction`, `description`, `timestamp`, `classification`) VALUES ('100', 'Chatbot is well done!', 'Tom Poo', 'tomlow@gmail.com', 'Chatbot', '5', 'I love the chatbot function! I could chat with it whenever I feel lonely or just need someone to talk to, just feels like I am actually having a conversation with a human.', '12 February 2023 11.34 PM', 'Positive');
+INSERT INTO `moodplusdb`.`feedbacks` (`id`, `title`, `name`, `email`, `aifunction`, `satisfaction`, `description`, `timestamp`, `classification`) VALUES ('101', 'What is wrong with the Risk Assessment?', 'John Lim', 'johnlim@gmail.com', 'Risk Assessment', '1', 'Bad prediction! Why did it detect that I have a high suicidal rate when I feel fine?? I do not have depression!', '12 February 2023 11.34 PM', 'Negative');
+INSERT INTO `moodplusdb`.`feedbacks` (`id`, `title`, `name`, `email`, `aifunction`, `satisfaction`, `description`, `timestamp`, `classification`) VALUES ('102', 'Chatbot was not accurate', 'Xi En Toh', 'xinen@gmail.com', 'Chatbot', '3', 'Some of the chatbot responses were not accurate but overall its a good feature.', '12 February 2023 4.26 PM', 'Constructive');
+INSERT INTO `moodplusdb`.`feedbacks` (`id`, `title`, `name`, `email`, `aifunction`, `satisfaction`, `description`, `timestamp`, `classification`) VALUES ('103', 'HELLO', '', 'tomlow@gmail.com', 'Chatbot', '2', '????', '13 February 2023 10.58 PM', 'Irrelevant');
+
+--CHATS
+INSERT INTO `moodplusdb`.`chats` (`id`, `sender`, `recipient`, `sendername`, `recipientname`) VALUES ('2', 'customer2', 'counsellor1', 'Xin En Toh', 'Wendy Tan');
+
+--MESSAGES
+INSERT INTO `moodplusdb`.`messages` (`id`, `sentby`, `timestamp`, `message`, `chatId`) VALUES ('100', 'customer2', '13 February 2023 3.23 PM', 'hi', '2');
+INSERT INTO `moodplusdb`.`messages` (`id`, `sentby`, `timestamp`, `message`, `chatId`) VALUES ('101', 'counsellor1', '13 February 2023 3.24 PM', 'Hello! I am a counsellor, my name is Wendy, how can I help you today?', '2');
+INSERT INTO `moodplusdb`.`messages` (`id`, `sentby`, `timestamp`, `message`, `chatId`) VALUES ('102', 'customer2', '13 February 2023 3.46 PM', 'I have been feeling very down these days. I just do not really see a point in life anymore.', '2');
+INSERT INTO `moodplusdb`.`messages` (`id`, `sentby`, `timestamp`, `message`, `chatId`) VALUES ('103', 'counsellor1', '13 February 2023 3.47 PM', 'Would you like to share with me about the problems might have or what do you think made you feel this way?', '2');
+INSERT INTO `moodplusdb`.`messages` (`id`, `sentby`, `timestamp`, `message`, `chatId`) VALUES ('103', 'counsellor1', '13 February 2023 3.47 PM', 'It is okay if you are not sure how to explain yourself, I am here to help you!', '2');
