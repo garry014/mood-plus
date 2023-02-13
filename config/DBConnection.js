@@ -1,8 +1,10 @@
 const mySQLDB = require('./DBConfig');
 const thread = require('../models/Thread');
 const posts = require('../models/Post');
-// const chat = require('../models/Chat');
+const chat = require('../models/Chat');
+const messages = require('../models/Message');
 const User = require('../models/User');
+const feedback = require('../models/Feedback');
 
 
 // If drop is true, all existing tables are dropped and recreated
@@ -17,6 +19,7 @@ const setUpDB = (drop) => {
         In this case the primary key from user will be a foreign key
         in video.
         */
+            chat.hasMany(messages);
             thread.hasMany(posts);
             mySQLDB.sync({ // Creates table if none exists
                 force: drop
