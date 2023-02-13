@@ -17,6 +17,7 @@ Counsellor: Hello! I'm a counsellor, my name is Sandra. I can tell that you are 
 Counsellor: Don’t worry if you are unsure about how to explain yourself! We will go through this together, take your time.
 
 // Feedback
+Constructive: Prediction not super accurate but good use of technology
 
 --- Gary ---
 // New Thread
