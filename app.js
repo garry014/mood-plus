@@ -39,6 +39,8 @@ const mainRoute = require('./routes/main');
 const forumRoute = require('./routes/forum'); // Add this line
 const chatRoute = require('./routes/chat');
 const userRoute = require('./routes/user');
+const emotionRoute = require('./routes/emotiondetector');
+
 
 /*
 * Creates an Express server - Express is a web application framework for creating web applications
@@ -181,6 +183,8 @@ app.use('/', mainRoute);
 app.use('/forum', forumRoute); // Add this line
 app.use('/chat', chatRoute);
 app.use('/user', userRoute);
+app.use('/emotion', emotionRoute);
+
 
 
 ////////////////////////////// GOOGLE & FACEBOOK LOGIN STACEY ////////////////////////////////////
@@ -389,7 +393,21 @@ io.on("connection", async function(socket){
 		//   }
 	});
 	////////////////////////stacey added stop/////////////////////////////
-
+	
+// generate quote of the day api amelia function 
+const axios = require('axios');
+app.get('/', async (req, res) => {
+	try {
+	  const result = await axios.get('https://quotes.rest/qod?language=en');
+	  const quote = result.data.contents.quotes[0].quote;
+	  const author = result.data.contents.quotes[0].author;
+	  res.render('emotiondetector/sharesocialmedia', { quote, author });
+	} catch (error) {
+	  res.status(500).send({ error: 'An error occurred while getting the quote of the day' });
+	}
+  });
+// amelia end quote
+	
 	// TODO: Change with login user instead of static user
 	socket.on('new_user', (user) => {
 		socket.username = user;
