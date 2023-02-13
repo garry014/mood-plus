@@ -1,0 +1,107 @@
+<!--================================ START BREADCRUMB AREA =================================-->
+<section class="breadcrumb-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="breadcrumb">
+                    <ul>
+                        <li>
+                            <a href="/">Home</a>
+                        </li>
+                        <li>
+                            <a href="/chat/allfeedbacks">Feedbacks</a>
+                        </li>
+                        <li class="active">
+                            <a href="#">{{threadDetails.title}}</a>
+                        </li>
+                    </ul>
+                </div>
+                <h1 class="page-title">View Feedback</h1>
+            </div>
+            <!-- end /.col-md-12 -->
+        </div>
+        <!-- end /.row -->
+    </div>
+    <!-- end /.container -->
+</section>
+<!--================================
+    END BREADCRUMB AREA
+=================================-->
+
+<!--================================
+        START DASHBOARD AREA
+=================================-->
+<section class="support_threads_area section--padding2">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 offset-lg-1">
+                <div class="forum_detail_area ">
+                    <div class="cardify forum--issue">
+                        <div class="title_vote clearfix">
+                            <h3>{{feedbacks.title}}</h3>
+                            <!-- end .vote -->
+                        </div>
+                        <!-- end .title_vote -->
+                        <div class="suppot_query_tag">
+                            <span>{{feedbacks.timestamp}}</span>
+                            <span class="support_tag">{{feedbacks.classification}}</span>
+                        
+                        <br>
+                        <strong>Name:</strong> {{feedbacks.name}}<br>
+                        <strong>Email:</strong> {{feedbacks.email}}<br>
+                        <strong>Function:</strong> {{#ifCond feedbacks.aifunction '==' 'RA'}}Risk Assessment{{else}}{{feedbacks.aifunction}}{{/ifCond}}<br>
+                        <strong>Satisfaction Level:</strong> {{feedbacks.satisfaction}}/5<br>
+                        </div>
+                        <br>
+                        <h4>{{feedbacks.description}}</h4>
+                    </div>
+                    <!-- end .forum_issue -->
+                </div>
+                <!-- end .forum_detail_area -->
+            </div>
+            <!-- end .col-md-8 -->
+        </div>
+        <!-- end .row -->
+    </div>
+    <!-- end .container -->
+</section>
+<!--================================
+        END DASHBOARD AREA
+=================================-->
+
+
+<script src="/js/speechToText.js"></script>
+<script>
+    document.getElementById('currentThreadPost').innerHTML += decodeHtml("{{threadDetails.post}}")
+
+    function decodeHtml(html) {
+        var txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return txt.value;
+    }
+
+    window.addEventListener("load", (event) => {
+        {{#each posts}}
+        document.getElementById('post-{{id}}').innerHTML = decodeHtml("{{post}}");
+        {{/each}}
+    });
+
+    function decodeHtml(html) {
+        var txt = document.createElement("textarea");
+        txt.innerHTML = html;
+        return txt.value;
+    }
+
+    function listen(divId){
+        var divText = document.getElementById(divId).innerText;
+        readText(divText);
+    }
+
+    function readText(text) {
+        console.log(text)
+        const synth = window.speechSynthesis;
+        const utterance = new SpeechSynthesisUtterance();
+        utterance.text = text;
+        synth.speak(utterance);
+    }
+</script>

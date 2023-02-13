@@ -1,0 +1,110 @@
+<!--================================
+    START BREADCRUMB AREA
+=================================-->
+<section class="breadcrumb-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="breadcrumb">
+                    <ul>
+                        <li>
+                            <a href="/">Home</a>
+                        </li>
+                        <li>
+                            <a href="/chat">Messages</a>
+                        </li>
+                        <li class="active">
+                            <a href="#">Feedback</a>
+                        </li>
+                    </ul>
+                </div>
+                <h1 class="page-title">Feedback Form</h1>
+            </div>
+            <!-- end /.col-md-12 -->
+        </div>
+        <!-- end /.row -->
+    </div>
+    <!-- end /.container -->
+</section>
+<!--================================
+    END BREADCRUMB AREA
+=================================-->
+
+<!--================================
+        START DASHBOARD AREA
+=================================-->
+<section class="support_threads_area section--padding2">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2">
+                <div class="question-form cardify p-4">
+                    <form id="feedbackform"  method="post">
+                        <div class="form-group">
+                            <label>Title</label>
+                            <input name="title" type="text" placeholder="Enter Title" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input name="name" type="text" placeholder="Enter Name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input name="email" type="email" placeholder="Enter Your Email" required>
+                        </div>
+                        {{!-- <div class="form-group">
+                            <p class="label">Select Function</p>
+                            <div class="custom-radio">
+                                <input type="radio" id="opt5" class="" name="filter_opt">
+                                <label for="opt5">
+                                    <span class="circle"></span>Chatbot</label>
+                            </div>
+                            <div class="custom-radio">
+                                <input type="radio" id="opt6" class="" name="filter_opt">
+                                <label for="opt6">
+                                    <span class="circle"></span>Risk Assessment</label>
+                            </div>
+                        </div>   --}}
+                        <div class="form-group">
+                            <label for="satisfaction">Select Function</label>
+                            <div class="select-wrap select-wrap2">
+                                <select name="aifunction" id="aifunction" class="text_field">
+                                    <option value="">Select one</option>
+                                    <option value="chatbot">Chatbot</option>
+                                    <option value="RA">Risk Assessment</option>
+                                </select>
+                                <span class="lnr lnr-chevron-down"></span>
+                            </div>
+                        </div> 
+                        <div class="form-group">
+                            <label for="satisfaction">Satisfaction Level</label>
+                            <div class="select-wrap select-wrap2">
+                                <select name="satisfaction" id="satisfaction" class="text_field">
+                                    <option value="">Select one</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                                <span class="lnr lnr-chevron-down"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="textarea1">Description</label>
+                            <textarea class="text_field" name="description" placeholder="Enter text here"required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn--md btn-primary" method="post" >Submit Feedback</button>
+                        </div>
+                    </form>
+                </div><!-- ends: .question-form -->
+            </div>
+            <!-- end .col-md-8 -->
+        </div>
+        <!-- end .row -->
+    </div>
+    <!-- end .container -->
+</section>
+<!--================================
+        END DASHBOARD AREA
+=================================-->
