@@ -1,0 +1,113 @@
+  <!--================================
+        START BREADCRUMB AREA
+    =================================-->
+    <section class="breadcrumb-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="breadcrumb">
+                        <ul>
+                            <li>
+                                <a href="index.html">Home</a>
+                            </li>
+                            <li class="active">
+                                <a href="#">Social Media Share </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <h1 class="page-title">Share Your Result!</h1>
+                </div>
+                <!-- end /.col-md-12 -->
+            </div>
+            <!-- end /.row -->
+        </div>
+        <!-- end /.container -->
+    </section>
+    <!--================================
+        END BREADCRUMB AREA
+    =================================-->
+
+    <!--================================
+            START SIGNUP AREA
+    =================================-->
+    <section class="signup_area section--padding2">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 offset-lg-3">
+                    <form action="/emotion/sharesocialmedia/{{emotiondetections.random_id}}?_method=GET" method="post" enctype="multipart/form-data">
+                        <div class="cardify signup_form">
+                            <div class="login--header">
+                                <h3>Share Your Result Here!</h3>
+                                <p>You can share your photo and predicted result with quote on our facebook page! 
+                                </p>
+                            </div>
+                            <!-- end .login_header -->
+
+                            <div class="login--form">
+                                <div class="form-group">
+                                    <label for="photo">Photo Uploaded:</label>
+                                    <img src="http://localhost:5000/uploads/emotionphotos/{{data.photo}}">
+                                    <p>{{data.image}}</p>
+                                   {{!-- <input type="text" class="form-control" name="photo" value="{{emotiondetections.photo}}"  readonly="readonly" required> --}}
+                                </div>
+                                <div class="form-group">
+                                    <label for="emotion_result">Emotion Result:</label>
+                                    <p>{{data.emotion_result}}</p>
+                                </div>
+                                <div class="form-group">
+                                    <label for="urname">Quote Generated:</label>
+                                    <p>{{data.quote_generated}}</p>
+                                </div>
+                            </div>
+                            <!-- end .login--form -->
+                        </div>
+                        <!-- end .cardify -->
+                    </form>
+                </div>
+                <div class="col-lg-6 offset-lg-3">
+                    <form action="/emotion/sharesocialmedia/" method="post">
+                        <div class="cardify signup_form">
+                            <!-- end .login_header -->
+
+                            <div class="login--form">
+                                <div class="form-group">
+                                     <input id="emotion_result" name="emotion_result" value="{{data.emotion_result}}" hidden>
+                                      <input id="quote_generated" name="quote_generated" value="{{data.quote_generated}}" hidden>
+                                </div>
+                                 <div class="form-group">
+                                    <input id="random_id" name="random_id" value="{{data.random_id}}" hidden>
+                                     {{!-- <input id="random_id" name="random_id" value="{{data.emotion_result}}" hidden>
+                                      <input id="random_id" name="random_id" value="{{data.quote_generated}}" hidden> --}}
+                                </div>
+                                <div class="form-group">
+                                    <label for="photo">Your Name</label>
+                                    <input type="text" id="name" name="name" class="text_field" placeholder="Enter your Name">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="message">Enter your Message Here:</label>
+                                    <textarea  class="text_field" id="message" name="message" rows="4" cols="50"></textarea>
+                                </div>
+
+                                <button class="btn btn--md btn--round register_btn" type="submit">Submit!</button>
+
+                                <div class="login_assist">
+                                    <p>Predict Another Photo?
+                                        <a href="/emotion/emotionhome">Click Here!</a>
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- end .login--form -->
+                        </div>
+                        <!-- end .cardify -->
+                    </form>
+                </div>
+                <!-- end .col-md-6 -->
+            </div>
+            <!-- end .row -->
+        </div>
+        <!-- end .container -->
+    </section>
+    <!--================================
+            END SIGNUP AREA
+    =================================-->
