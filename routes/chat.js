@@ -255,7 +255,7 @@ router.post('/feedback', async(req, res) => {
 			description,
 			timestamp: getToday(),
 			status : "Unresolved",
-			classification : fb
+			classification : fb.replaceAll(' ', '')
 		}).then((feedbacks) => {
 			res.redirect('/chat');
 		}).catch(err => console.log(err))
@@ -263,7 +263,7 @@ router.post('/feedback', async(req, res) => {
 });
 // feedback classification api
 async function classify_feedback(text) {
-    const apiKey = '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';
+    const apiKey = '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';
 
     return new Promise(res => {
         var options = {
@@ -273,8 +273,8 @@ async function classify_feedback(text) {
                 'Authorization': `Bearer ${apiKey}`,
             },
             body : {
-                model: "text-curie-001",
-                prompt : `The following is different feedbacks and the categories they fall into:\nPositive, Negative, Constructive, Irrelevant\n\"${text}\":`, 
+                model: "text-davinci-003",
+                prompt : `The following is different feedbacks and the categories they fall into:\nPositive, Negative, Constructive, Irrelevant\n\"${text}\":`,
                 temperature: 0,
                 max_tokens: 50,
                 top_p: 1.0,
