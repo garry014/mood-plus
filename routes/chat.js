@@ -274,7 +274,7 @@ async function classify_feedback(text) {
             },
             body : {
                 model: "text-curie-001",
-                prompt : `The following is different feedbacks and the categories they fall into:\nPositive, Negative, Constructive, Irrelevant\n\nCategorize\"${text}\":`, 
+                prompt : `The following is different feedbacks and the categories they fall into:\nPositive, Negative, Constructive, Irrelevant\n\"${text}\":`, 
                 temperature: 0,
                 max_tokens: 50,
                 top_p: 1.0,
