@@ -1,0 +1,84 @@
+<!--================================
+    START BREADCRUMB AREA
+=================================-->
+<section class="breadcrumb-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="breadcrumb">
+                    <ul>
+                        <li>
+                            <a href="/">Home</a>
+                        </li>
+                        <li>
+                            <a href="/chat/allfeedbacks">Feedbacks</a>
+                        </li>
+                        {{!-- {{#ifCond searchText '!=' null}}
+                        <li class="active">
+                            <a href="#">Search Threads</a>
+                        </li>
+                        {{/ifCond}} --}}
+                    </ul>
+                </div>
+                <h1 class="page-title">All Feedbacks</h1>
+            </div>
+            <!-- end /.col-md-12 -->
+        </div>
+        <!-- end /.row -->
+    </div>
+    <!-- end /.container -->
+</section>
+<!--================================
+    END BREADCRUMB AREA
+=================================-->
+
+<!--================================
+        START DASHBOARD AREA
+=================================-->
+<section class="support_threads_area section--padding2">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 offset-lg-1">
+                <div class="support_threads">
+                    {{#each feedbacks}}
+                    <div class="support_thread_list cardify">
+                        <div class="support_thread--single">
+                            <div class="support_thread_info">
+                                <a href="/chat/viewfeedback/{{id}}" class="support_title">{{title}}</a>
+                                <div class="suppot_query_tag">
+                                    {{name}} ({{timestamp}})
+                                    {{#ifCond classification '==' " Positive"}}
+                                    <span class="support_tag" style="background-color:#77de51; color: white">{{classification}}</span>
+                                    {{/ifCond}}
+                                    {{#ifCond classification '==' " Negative"}}
+                                    <span class="support_tag" style="background-color:#ff6a6d; color: white">{{classification}}</span>
+                                    {{/ifCond}}
+                                    {{#ifCond classification '==' " Constructive"}}
+                                    <span class="support_tag" style="background-color:#feb71d; color: white">{{classification}}</span>
+                                    {{/ifCond}}                                    
+                                    {{#ifCond classification '==' "Irrelevant"}}
+                                    <span class="support_tag" style="background-color:#0674ec; color: white">{{classification}}</span>
+                                    {{/ifCond}}
+                                </div>
+                            </div>
+                            <!-- end .support_thread_info -->
+                        </div>
+                        <!-- end .support_thread--single -->
+                    </div>
+                    {{else}}
+                    No feedbacks for today
+                    {{/each}}
+                    <!-- end .support_thread_list -->
+                </div>
+                <!-- end .support_threads -->
+            </div>
+            <!-- end .col-md-8 -->
+
+        </div>
+        <!-- end .row -->
+    </div>
+    <!-- end .container -->
+</section>
+<!--================================
+        END DASHBOARD AREA
+=================================-->
