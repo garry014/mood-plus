@@ -1,5 +1,6 @@
 // Handlebars Helpers
 const alertMessage = require('../helpers/messenger');
+const ensureAuthenticated = require('../helpers/auth.js');
 const Chat = require('../models/Chat');
 const Message = require('../models/Message');
 const Feedback = require('../models/Feedback');
