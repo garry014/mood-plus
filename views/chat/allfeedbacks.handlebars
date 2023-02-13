@@ -47,13 +47,13 @@
                                 <a href="/chat/viewfeedback/{{id}}" class="support_title">{{title}}</a>
                                 <div class="suppot_query_tag">
                                     {{name}} ({{timestamp}})
-                                    {{#ifCond classification '==' " Positive"}}
+                                    {{#ifCond classification '==' "Positive"}}
                                     <span class="support_tag" style="background-color:#77de51; color: white">{{classification}}</span>
                                     {{/ifCond}}
-                                    {{#ifCond classification '==' " Negative"}}
+                                    {{#ifCond classification '==' "Negative"}}
                                     <span class="support_tag" style="background-color:#ff6a6d; color: white">{{classification}}</span>
                                     {{/ifCond}}
-                                    {{#ifCond classification '==' " Constructive"}}
+                                    {{#ifCond classification '==' "Constructive"}}
                                     <span class="support_tag" style="background-color:#feb71d; color: white">{{classification}}</span>
                                     {{/ifCond}}                                    
                                     {{#ifCond classification '==' "Irrelevant"}}
