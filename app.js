@@ -438,8 +438,9 @@ io.on("connection", async function(socket){
 		var datetime = getToday();
 		data["timestamp"] = datetime;
 		data["sender"] = currentuser;
-		io.to(socketId).emit("new_message", data);
-
+		//io.to(socketId).emit("new_message", data);
+		io.emit("new_message", data);
+		
 		console.log(data.message)
 
 		// Save in db
