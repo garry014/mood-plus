@@ -3,7 +3,7 @@
 
 --- Kai Jie ---
 // Risk Assessment Input
-Customer: I dont see a meaning to life anymore
+Customer: I dont see a meaning to life anymore || sometimes i feel like killing myself
 
 // Counsellor Chat
 Customer: Hi
