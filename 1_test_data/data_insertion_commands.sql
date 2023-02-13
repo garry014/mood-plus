@@ -33,3 +33,83 @@ INSERT INTO `moodplusdb`.`messages` (`id`, `sentby`, `timestamp`, `message`, `ch
 INSERT INTO `moodplusdb`.`messages` (`id`, `sentby`, `timestamp`, `message`, `chatId`) VALUES ('102', 'customer2', '13 February 2023 3.46 PM', 'I have been feeling very down these days. I just do not really see a point in life anymore.', '2');
 INSERT INTO `moodplusdb`.`messages` (`id`, `sentby`, `timestamp`, `message`, `chatId`) VALUES ('103', 'counsellor1', '13 February 2023 3.47 PM', 'Would you like to share with me about the problems might have or what do you think made you feel this way?', '2');
 INSERT INTO `moodplusdb`.`messages` (`id`, `sentby`, `timestamp`, `message`, `chatId`) VALUES ('103', 'counsellor1', '13 February 2023 3.47 PM', 'It is okay if you are not sure how to explain yourself, I am here to help you!', '2');
+
+--EMOTION QUOTES
+INSERT INTO moodplusdb.emotionquotes (
+    happy,
+    sad,
+    neutral,
+    angry,
+    fear
+)
+VALUES
+    (
+        '"Happiness depends upon ourselves." —Aristotle',
+        '“Cheer up when the night comes, because mornings always give you another chance.”',
+        '"Your body must become familiar with its death - in all its possible forms and degrees - as a self-evident, imminent, and emotionally neutral step on the way towards the goal you have found worthy of your life." -Dag Hammarskjold',
+        '“It is not the actions of others which trouble us, but rather it is our own judgments. Therefore remove those judgments and resolve to let go of your anger, and it will already be gone.” – Marcus Aurelius, Meditations',
+        '“It’s perfectly okay to admit you’re not okay.” – Unknown'
+    ),
+    (
+		'"Happiness is when what you think, what you say, and what you do are in harmony." —Mahatma Gandhi',
+        '“Let us be of cheer, remembering that the misfortunes hardest to bear are those which never come.”',
+        '"I`m not saying that people should stop flying. I`m just saying it needs to be easier to be climate neutral. -Greta Thunburg',
+        '“You are not the anger, you are the awareness behind the anger. Realize this and the anger will no longer control you.” – Eckhart Tolle, The Power of Now',
+        '“Let your mind and heart rest for a while. You will catch up, the world will not stop spinning for you, but you will catch up. Take a rest.” – Cynthia Go'
+    ),
+    (
+		'"The moments of happiness we enjoy take us by surprise. It is not that we seize them, but that they seize us." —Ashley Montagu',
+        '“I’ve got a lot of dreams I want to achieve, and I hope someone can cheer me on as I’ll cheer them on in their dreams.”',
+        '"The Constitution is not neutral. It was designed to take the government off the backs of people." -William O. Douglas',
+        '“Patience and empathy are anger’s mortal enemies.” – Gary Rudz',
+        '“Stress is self-created, I decided to stop manufacturing it. We can choose an internal calm and joy even amid the chaos.” – Brendon Burchard'
+    ),
+   (
+		'"Even if happiness forgets you a little bit, never completely forget about it." —Jaques Prevert',
+       '“Life is too short for us to dwell on sadness. Cheer up and live life to the fullest.”',
+        '"I can never really remember what I look like. I`m just sort of neutral. I don`t think I`m sort of, you know, hideous." -Sam Neill',
+        '“Conquer the angry one by not getting angry; conquer the wicked by goodness; conquer the stingy by generosity, and the liar by speaking the truth.” ― Siddhārtha Gautama, Verse 223, The Dhammapada',
+        '“Your mountain may be harder to climb, but oh the view is divine.” – Jennae Cecelia'
+    ),
+    (
+		'"One of the secrets of a happy life is continuous small treats." —Iris Murdoch',
+        '“Hands-on your hips, a smile on your lips, spirit in your heart, we’re ready to start!”',
+        '"It`s really easy to get colors right. It`s really hard to get black and neutrals right. Black is certainly a color but it`s also an illusion."  -Donna Karan',
+        '“Don’t hold to anger, hurt or pain. They steal your energy and keep you from love.” – Leo Buscaglia',
+        '“Whatever you do, never run back to what broke you.” – Frank Ocean'
+    ),
+    (
+		'"The only joy in the world is to begin." —Cesare Pavese',
+		'“You don’t always need a plan. Sometimes you just need to breathe, trust, let go and see what happens.”',
+        '"People who demand neutrality in any situation are usually not neutral but in favor of the status quo." —Max Eastman',
+        '“The best fighter is never angry.” ― Lao Tzu',
+        '“Change is hard at first, messy in the middle, and gorgeous at the end.” – Robin Sharma'
+    ),
+    (
+		'"It is only possible to live happily ever after on a daily basis." —Margaret Bonanno',
+        '“Tough times don’t last, tough people, do.”',
+        '"Let`s not confuse traditional behaviours with good manners. The definition of etiquette is gender neutral - it simply means we strive at all times to ensure a person in our company feels at ease." -Lynn Coady',
+        '“Holding on to anger is like grasping a hot coal with the intent of throwing it at someone else; you are the one who gets burned.” – Buddha',
+        '“She’s hurt mentally and emotionally. But everyday, she walks with a smile. ‘Cause that’s who she is: the girl who never stopped smiling.” – Unknown'
+    ),
+    (
+		'"The pleasure which we most rarely experience gives us greatest delight." —Epictetus',
+        'Every day may not be good. But there is something good in every day',
+        '"Nature is neutral." - Adlai Stevenson I',
+        '“Calm is the best revenge.” – Bangambiki Habyarimana',
+        '“All I want is a clear mind and a happy heart.” – Dipti Bhoyar'
+    ),
+    (
+		'"Remember this, that very little is needed to make a happy life." — Marcus Aurelius',
+        '"Do not grieve. Anything you lose comes round in another form."',
+        '"Neutral men are the devil`s allies." - Edwin Hubbel Chapin',
+        '“Do not let your anger lead to hatred, as you will hurt yourself more than you would the other.” – Stephen Richards, Cosmic Ordering Guide',
+        '“Mantra for Anxiety: This is not you. This is something moving through you. It can leave out of the same door it came in.” – James Clear'
+    ),
+    (
+		'"I wake up every morning with a great desire to live joyfully." — Anna Howard Shaw',
+        '“It’s just a bad day not a bad life.”',
+        '"If you are neutral in situations of injustice, you have chosen the side of the oppressor. If an elephant has its foot on the tail of a mouse and you say that you are neutral, the mouse will not appreciate your neutrality." - Desmond Tutu',
+        '“When angry, count ten before you speak; if very angry, a hundred.” ― Thomas Jefferson',
+        '“She has been through hell. So believe me when I say, fear her when she looks into a fire and smiles.” – E. Corona'
+    );
