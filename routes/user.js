@@ -355,40 +355,6 @@ router.post('/login', (req, res, next) => {
 });
 
 
-// admin : login
-router.get('/loginadmin', (req, res) => {
-	res.render('user/loginadmin', {user: req.user});
-});
-
-router.post('/loginadmin', (req, res, next) => {
-	passport.authenticate('local', {
-		successRedirect: '/homeadmin',
-		failureRedirect: '/user/loginadmin', // Route to /login URL
-		failureFlash: 'Invalid username or password.',
-		userProperty: res.user
-	})
-		(req, res, next);
-});
-
-
-
-// counsellor : login
-router.get('/logincounsellor', (req, res) => {
-	res.render('user/logincounsellor', {user: req.user});
-});
-
-router.post('/logincounsellor', (req, res, next) => {
-	console.log("167")
-	passport.authenticate('local', {
-		successRedirect: '/homecounsellor',
-		failureRedirect: '/user/logincounsellor', // Route to /login URL
-		failureFlash: 'Invalid username or password.',
-		userProperty: res.user
-	})
-		(req, res, next);
-});
-
-
 // profile ensureAuthenticated
 router.get('/profile/:id',  ensureAuthenticated, (req, res)=> {
 	console.log("in here 182")
