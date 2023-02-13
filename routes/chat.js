@@ -271,17 +271,16 @@ async function classify_feedback(text) {
             json : true,
             headers: {
                 'Authorization': `Bearer ${apiKey}`,
-                // 'Content-Type': 'application/json'
             },
             body : {
-                model: "text-davinci-003",
+                model: "text-curie-001",
                 prompt : `The following is different feedbacks and the categories they fall into:\nPositive, Negative, Constructive, Irrelevant\n\nCategorize\"${text}\":`, 
-                temperature: 0.7,
+                temperature: 0,
                 max_tokens: 50,
                 top_p: 1.0,
-                frequency_penalty: 1.0,
-                presence_penalty: 1,
-				stop: ["\n"],
+                frequency_penalty: 0,
+                presence_penalty: 0,
+		stop: ["\n"],
             },
             method : 'post'
         };
