@@ -343,8 +343,17 @@
     }
 
     window.addEventListener("load", (event) => {
+        // hide post when it's inappropriate if not author.
         {{#each posts}}
-        document.getElementById('post-{{id}}').innerHTML = decodeHtml("{{post}}");
+        {{#unless hiddenReason}}
+            document.getElementById('post-{{id}}').innerHTML = decodeHtml("{{post}}");
+        {{else}}
+            {{#ifCond username '!=' ../user.username}}
+            document.getElementById('post-{{id}}').innerHTML = decodeHtml("<i>This post is hidden as it is marked inappropriate.</i>");
+            {{else}}
+            document.getElementById('post-{{id}}').innerHTML = decodeHtml("{{post}}");
+            {{/ifCond}}
+        {{/unless}}
         {{/each}}
     });
 
