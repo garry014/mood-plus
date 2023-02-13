@@ -1,1 +1,3 @@
-CREATE SCHEMA `moodplusdb`;
+--USER ACCOUNTS
+INSERT INTO `moodplusdb`.`users` (`id`, `firstname`, `lastname`, `username`, `password`, `gender`, `email`, `phoneno`, `usertype`, `chat`) VALUES ('100', 'Tom', 'Poo', 'customer1', '$2b$10$BeXwap/SH5yk/DQpq3dZyeVyhb8IJCo2IY4z.o0ezMK0RFXd3aYuy', 'male', 'tomlow@gmail.com', '81234567', 'customer', 'Hidden');
+INSERT INTO `moodplusdb`.`users` (`id`, `firstname`, `lastname`, `username`, `password`, `gender`, `email`, `phoneno`, `usertype`, `chat`) VALUES ('101', 'Xin En', 'Toh', 'customer2', '$2b$10$BeXwap/SH5yk/DQpq3dZyeVyhb8IJCo2IY4z.o0ezMK0RFXd3aYuy', 'female', 'xinen@gmail.com', '85479654', 'customer', 'Hidden');
