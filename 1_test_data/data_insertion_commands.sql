@@ -32,7 +32,7 @@ INSERT INTO `moodplusdb`.`messages` (`id`, `sentby`, `timestamp`, `message`, `ch
 INSERT INTO `moodplusdb`.`messages` (`id`, `sentby`, `timestamp`, `message`, `chatId`) VALUES ('101', 'counsellor1', '13 February 2023 3.24 PM', 'Hello! I am a counsellor, my name is Wendy, how can I help you today?', '2');
 INSERT INTO `moodplusdb`.`messages` (`id`, `sentby`, `timestamp`, `message`, `chatId`) VALUES ('102', 'customer2', '13 February 2023 3.46 PM', 'I have been feeling very down these days. I just do not really see a point in life anymore.', '2');
 INSERT INTO `moodplusdb`.`messages` (`id`, `sentby`, `timestamp`, `message`, `chatId`) VALUES ('103', 'counsellor1', '13 February 2023 3.47 PM', 'Would you like to share with me about the problems might have or what do you think made you feel this way?', '2');
-INSERT INTO `moodplusdb`.`messages` (`id`, `sentby`, `timestamp`, `message`, `chatId`) VALUES ('103', 'counsellor1', '13 February 2023 3.47 PM', 'It is okay if you are not sure how to explain yourself, I am here to help you!', '2');
+INSERT INTO `moodplusdb`.`messages` (`id`, `sentby`, `timestamp`, `message`, `chatId`) VALUES ('104', 'counsellor1', '13 February 2023 3.47 PM', 'It is okay if you are not sure how to explain yourself, I am here to help you!', '2');
 
 --EMOTION QUOTES
 INSERT INTO moodplusdb.emotionquotes (
