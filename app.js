@@ -517,14 +517,9 @@ app.use(function (req, res, next) {
 });
 // No routes below this, otherwise it will get overwritten.
 
-/*
-* Creates a unknown port 5000 for express server since we don't want our app to clash with well known
-* ports such as 80 or 8080.
-* */
 const port = 5000;
 
 // Starts the server and listen to port 5000
 http.listen(port, () => {
-	MOTIVATIONAL_PUNS = ['Leggo~ Final push to grad 🥳.', "Stop slacking, I'm watching you 👀.", "The solution is 1 call away."]
-	console.log(`${MOTIVATIONAL_PUNS[Math.floor(Math.random() * 3)]} Server started on port http://localhost:${port}`);
+	console.log(`Server started on http://localhost:${port}`);
 });

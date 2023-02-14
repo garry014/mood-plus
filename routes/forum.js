@@ -64,7 +64,7 @@ router.get('/', async (req, res) => {
 
     let users = await get_all_users();
 
-    Thread.findAll({ 
+    Thread.findAndCountAll({ 
         where: whereClause,
         order: [
             ['id', 'DESC']
@@ -74,28 +74,28 @@ router.get('/', async (req, res) => {
         raw: true
     })
     .then((threads) => {
-        const threadsCount = threads.length;
-        const max_pages = Math.ceil(threadsCount/6)
+        const threadsCount = threads.length + 1;
 
-        threads.forEach(thread => {
+        threads.rows.forEach(thread => {
             if(!isNaN(thread.username)){
                 thread["name"] = users[thread.username]
             }
         }); 
 
+        const max_pages = Math.ceil(threads.count/LIMIT);
         if (PAGE > max_pages) {
             res.redirect('/404');
         }
         else {
             res.render('forum/main_page', {
                 title: "Let's talk about mental health",
-                threads: threads,
+                threads: threads.rows,
                 threadsCount: threadsCount,
                 categories: CATEGORIES,
                 filter: filterAction,
                 pagination: {
                     page: PAGE+1, // The current page the user is on
-                    pageCount: Math.ceil(threadsCount/LIMIT)  // The total number of available pages
+                    pageCount: max_pages  // The total number of available pages
                 }
             });
         }
@@ -350,7 +350,7 @@ router.get('/view_thread/:id', async (req, res) => {
                 }); 
                 console.log(posts)
 
-                const max_pages = Math.ceil(parseInt(posts.count)/6);
+                const max_pages = Math.ceil(parseInt(posts.count)/LIMIT);
                 if (PAGE > max_pages) {
                     res.redirect('/404');
                 }
@@ -363,7 +363,7 @@ router.get('/view_thread/:id', async (req, res) => {
                         postCount: posts.count,
                         pagination: {
                             page: PAGE+1, // The current page the user is on
-                            pageCount: Math.ceil(posts.count/LIMIT)  // The total number of available pages
+                            pageCount: max_pages  // The total number of available pages
                         }
                     });
                 }
