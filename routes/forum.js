@@ -17,7 +17,6 @@ const router = express.Router();
 const request = require('request');
 const smartSearch = require('smart-search');
 const cheerio = require('cheerio');
-const { where } = require('sequelize');
 
 async function get_all_users() {
     return new Promise(res => {
@@ -120,23 +119,33 @@ router.post('/', async (req, res) => {
     })
     .then((threads) => {
         var searchResults = smartSearch(threads, [searchText], {title: true, post: true});
-        //console.log(searchResults);
+        // console.log(searchResults);
+
+        var finalResults = [];
 
         if (searchResults.length) {
             for (i in searchResults){
+                // filter if score < 2
+                if (searchResults[i]["score"] < 2) {
+                    finalResults.push(searchResults[i]["entry"])
+                }
                 searchResults[i] = searchResults[i]["entry"]
             }
         }
+
+        // console.log(finalResults)
         
         threads.forEach(thread => {
             if(!isNaN(thread.username)){
                 thread["name"] = users[thread.username]
             }
-        }); 
+        });
+        
+        
 
         res.render('forum/main_page', {
             title: "Let's talk about mental health",
-            threads: searchResults,
+            threads: finalResults,
             searchText: searchText,
             categories: ["Experiences", "Grief", "Abuse", "Relationships", "Others"],
             pagination: {
