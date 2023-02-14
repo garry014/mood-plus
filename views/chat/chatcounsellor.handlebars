@@ -1,0 +1,361 @@
+<!--================================
+    START BREADCRUMB AREA
+=================================-->
+<section class="breadcrumb-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="breadcrumb">
+                    <ul>
+                        <li>
+                            <a href="index.html">Home</a>
+                        </li>
+                        <li class="active">
+                            <a href="#">Message</a>
+                        </li>
+                    </ul>
+                </div>
+                <h1 class="page-title">Messages Box</h1>
+            </div>
+            <!-- end /.col-md-12 -->
+        </div>
+        <!-- end /.row -->
+    </div>
+    <!-- end /.container -->
+</section>
+<!--================================
+    END BREADCRUMB AREA
+=================================-->
+
+<!--================================
+        START MESSAGE AREA
+=================================-->
+<section class="message_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="content_title">
+                    <h3>Messages</h3>
+                </div>
+                <!-- end /.content_title -->
+            </div>
+            <!-- end /.col-md-12 -->
+        </div>
+        <!-- end /.row -->
+
+        <div class="row">
+            <div class="col-lg-5">
+                <div class="cardify messaging_sidebar">
+                    <div class="messaging__header">
+                        <div class="messaging_menu">
+                            <h4>Inbox</h4>
+                        </div>
+                        <!-- end /.messaging_menu -->
+                        <!-- end /.messaging_action -->
+                    </div>
+                    <!-- end /.messaging__header -->
+                    <div id="inbox_chat" class="messaging__contents">
+                    {{#if chats}}
+                    {{#each chats}}
+                        {{#ifCond id '==' ../id}}
+                        <div id="active_chat" class="messages">
+                            <div id="chat_people_{{id}}" class="message active">
+                                <div class="message__actions_avatar">
+                                    <div class="avatar">
+                                        <img src="/images/usr_avatar.png" alt="logo image" class="img-fluid">
+                                    </div>
+                                </div>
+                                <!-- end /.actions -->
+                                <div class="message_data">
+                                    <div class="name_time">
+                                        <div class="name">
+                                            <p>
+                                                {{#ifCond ../currentuser "==" recipient}}
+                                                {{sender}} 
+                                                {{else}}
+                                                    {{#ifCond recipient '==' 'counsellor1'}}
+                                                    Counsellor
+                                                    {{else}}
+                                                    {{recipient}}
+                                                    {{/ifCond}}
+                                                {{/ifCond}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- end /.message_data -->
+                            </div>
+                            <!-- end /.message -->
+                        </div>
+                        <!-- end /.messages -->
+                        {{else}}
+                        <a id="chat_{{id}}" href="/chat/c/inbox/{{id}}">
+                            <div class="messages">
+                                <div id="chat_people_{{id}}" class="message">
+                                {{#ifCond ../currentuser "==" recipient}}
+                                <div class="message__actions_avatar">
+                                    <div class="avatar">
+                                        <img src="/images/usr_avatar.png" alt="logo image" class="img-fluid">
+                                    </div>
+                                </div>
+                                {{/ifCond}}
+                                <!-- end /.actions -->
+                                    <div class="message_data">
+                                        <div class="name_time">
+                                            <div class="name">
+                                                <p>{{#ifCond ../currentuser "==" recipient}}{{sender}}{{else}}{{recipient}}{{/ifCond}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        {{/ifCond}}
+                    {{/each}}
+                    {{/if}}
+                    </div>
+                    <!-- end /.messaging__contents -->
+                </div>
+                <!-- end /.cardify -->
+            </div>
+            <!-- end /.col-md-5 -->
+            {{#ifCond id '!=' 0}}
+            <div class="col-lg-7">
+                <div class="chat_area cardify">
+                    <div class="chat_area--title">
+                        <h3>Message with
+                            {{#ifCond recipient '==' 'counsellor1'}}
+                            Counsellor, Wendy Tan
+                            {{else}}
+                            {{recipient}}
+                            {{/ifCond}}
+                            {{!-- <span class="name">{{recipient}}</span> --}}
+                        </h3>
+                       
+                    </div>
+                    <!-- end /.chat_area--title -->
+
+                    <div class="chat_area--conversation" id="chat_area--conversation" style="height: 400px; overflow: auto; text-align:justify;">
+                        {{#each messages}}
+                        {{#if message}}
+                        <!-- Chat created using DOM will appear here --->
+                        <div class="conversation" >
+                            <div class="head">
+                                <div class="chat_avatar">
+                                    <img src="/images/usr_avatar.png" alt="logo image" class="img-fluid">
+                                </div>
+                                <div class="name_time">
+                                    <div>
+                                        {{#ifCond sentby "==" "counsellor1"}}
+                                        <h4>Counsellor</h4>
+                                        {{else}}
+                                        <h4>{{sentby}}</h4>
+                                        {{/ifCond}}
+                                    </div>
+                                </div>
+                                <!-- end /.name_time -->
+                            </div>
+                            <!-- end /.head -->
+                            <div class="body">
+                                <p>{{message}}</p>
+                            </div>
+                            <!-- end /.body -->
+                        </div>
+                        {{/if}}
+                        {{/each}}
+                    </div>
+                    <!-- end /.chat_area--conversation -->
+                    <div class="message_composer">
+                        {{!-- <form onsubmit="return sendMessage();"> --}}
+                        <form id="message_area" action="">
+                            <!--onsubmit="return sendMessage();" class="contact-form-style" -->
+                            <grammarly-editor-plugin config.documentDialect="british"
+                                config.suggestionCategories.oxfordComma="on">
+                                <input autocomplete="off" class="write_msg" id="message" name="message" placeholder="Type a message" 
+                                type="text" style="padding-right: 120px; background-color: rgb(195, 195, 195);" required>
+                            </grammarly-editor-plugin>
+                            <div class="btns">
+                                <button class="btn send btn--sm btn--round" type="submit" >Send</button>
+                            </div>
+                        </form>
+                        {{!-- <button class="btn send btn--sm btn--round" type="submit" >Send</button> --}}
+                        <div class="attached"></div>
+
+                        
+                        <!-- end /.message_composer -->
+                    </div>
+                    <!-- end /.message_composer -->
+                </div>
+                <!-- end /.chat_area -->
+            </div>
+             {{/ifCond}}
+            <!-- end /.col-md-7 -->
+        </div>
+        <!-- end /.row -->
+    </div>
+</section>
+<!--================================
+        END MESSAGE AREA
+=================================-->
+
+<!-- Socket IO -->
+<script src="/socket.io/socket.io.js"></script>
+<script>//////////////////////// Socket IO ////////////////////////////////
+    var io = io();
+</script>
+<!-- end of Socket IO -->
+<!-- grammarly api testing -->
+<script src="https://unpkg.com/@grammarly/editor-sdk?clientId=client_1ihqdkpQn1sy4tKfiw5AQW"></script> 
+
+<script>
+    function autoScrollDown() {
+        $('.chat_area--conversation').scrollTop($('.chat_area--conversation')[0].scrollHeight);
+    }
+    window.onload = function () {
+        autoScrollDown();
+    }
+    var recipient = "{{recipient}}";
+    // TODO: to change to actual login user.
+    const username = "{{user.username}}" //window.prompt("Enter the username");
+
+    console.log(recipient)
+    io.emit('new_user', username);
+
+    const messageForm = document.getElementById('message_area');
+    const textInput = document.getElementById('message');
+
+    messageForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (textInput.value) {
+            // Send message TO server
+            sendMessage()
+            textInput.value = '';
+        }
+    });
+
+    function getDateTimeNow(){
+        var today = new Date();
+        var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        var date = today.getDate() + " " + months[today.getMonth()] + " " + today.getFullYear();
+        var hours = today.getHours();
+        var minutes = today.getMinutes();
+        var ampm = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        var time = hours + ":" + minutes + " " + ampm;
+
+        return date + " at " + time;
+    }
+    function bumpChat(data){
+        console.log(data);
+        if(document.body.contains(document.getElementById("chat_"+data.chatid))){
+            document.getElementById("chat_"+data.chatid).remove();
+        }
+
+        const atag = document.createElement('a');
+        atag.id = "chat_" + data.chatid;
+        atag.href="/chat/c/inbox/" + data.chatid;
+        const div = document.createElement('div');
+        div.className = 'messages';
+        // data.id for new msg to be change to data.chatid
+        if(data.message == undefined){
+            data.message = "<i>This chat is currently empty.</i>";
+        }
+
+        var tobePrinted = `<div id="chat_people_${data.chatid}" class="message active">
+                                <div class="message__actions_avatar">
+                                    <div class="avatar">
+                                        <img src="/images/usr_avatar.png" alt="logo image" class="img-fluid">
+                                    </div>
+                                </div>
+                                <div class="message_data">
+                                        <div class="name_time">
+                                            <div class="name">
+                                                {{#ifCond ../currentuser "==" recipient}}
+                                                ${data.receiver}
+                                                {{else}}
+                                                    {{#ifCond recipient '==' 'counsellor1'}}
+                                                    Counsellor
+                                                    {{else}}
+                                                    ${data.receiver}
+                                                    {{/ifCond}}
+                                                {{/ifCond}}
+                                            </div>
+
+                                        </div>
+                                    </div>
+                            
+                                </div>
+                            </div>`;
+        div.innerHTML = tobePrinted;
+        atag.appendChild(div);
+
+        if(document.body.contains(document.getElementById("chat_people_"+data.chatid))){
+            document.getElementById("chat_people_"+data.chatid).remove();
+        }
+        
+        if(data.chatid == {{id}}){
+            // in a current chat
+            console.log("current_chat runnning");
+            const active_chat = document.getElementById("active_chat");
+            active_chat.innerHTML = tobePrinted;
+            document.getElementById('inbox_chat').prepend(active_chat); 
+        }
+        else {
+            console.log("alternate path is running");
+            document.getElementById('inbox_chat').prepend(atag);
+        }
+    }
+
+    function sendMessage() {
+        var message = document.getElementById("message").value;
+
+        // Send message to server
+        io.emit("send_message", {
+            sentby: username,
+            receiver: recipient,
+            message: message,
+            {{!-- timestamp: {{timestamp}}, --}}
+            chatid: {{id}}
+        });
+
+        
+        autoScrollDown();
+        document.getElementById("message").value = '';
+                
+        bumpChat({
+            sender: sender,
+            message: message,
+            chatid: {{id}},
+            timestamp: getToday()
+        });
+        return false;
+    }
+
+    // listen from server
+    io.on("new_message", function (data) {
+        console.log("new_message is working");
+        const div = document.createElement('div');
+        div.className = 'conversation';
+        div.innerHTML = `<div class="head">
+                            <div class="chat_avatar">
+                                <img src="/images/usr_avatar.png" alt="logo image" class="img-fluid">
+                            </div>
+                            <div class="name_time">
+                                <div>
+                                    <h4>${data.sentby}</h4>
+                                 </div>
+                            </div>
+                        </div>
+                        <div class="body">
+                            <p>${data.message}</p>
+                        </div>`;
+
+        document.getElementById('chat_area--conversation').appendChild(div); 
+        autoScrollDown();
+        bumpChat(data);
+    });
+    
+</script>
