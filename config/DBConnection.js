@@ -5,6 +5,8 @@ const chat = require('../models/Chat');
 const messages = require('../models/Message');
 const User = require('../models/User');
 const feedback = require('../models/Feedback');
+const emotiondetection = require('../models/Emotiondetection');
+const emotionquote = require('../models/Emotionquote')
 
 
 // If drop is true, all existing tables are dropped and recreated
