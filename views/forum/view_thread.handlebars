@@ -137,17 +137,19 @@
                                             {{#ifCond usertype '!=' 'customer'}}
                                             <span>{{usertype}}</span>
                                             {{/ifCond}}
-                                            {{#if hiddenReason}}
-                                                {{#ifCond vettingRequest '==' null}}
-                                                <a href="/forum/appeal/post/{{id}}"><span class="support_tag" style="background-color:red;">marked as inappropriate | appeal?</span></a>
-                                                {{/ifCond}}
-                                                {{#ifCond vettingRequest '==' "pending"}}
-                                                <span class="support_tag" style="background-color:#FFA500;">marked as inappropriate | appeal pending</span>
-                                                {{/ifCond}}
-                                                {{#ifCond vettingRequest '==' "rejected"}}
-                                                <span class="support_tag" style="background-color:red;">marked as inappropriate | appeal rejected</span>
-                                                {{/ifCond}}
-                                            {{/if}}
+                                            {{#ifCond username '==' ../user.username}}
+                                                {{#if hiddenReason}}
+                                                    {{#ifCond vettingRequest '==' null}}
+                                                    <a href="/forum/appeal/post/{{id}}"><span class="support_tag" style="background-color:red;">marked as inappropriate | appeal?</span></a>
+                                                    {{/ifCond}}
+                                                    {{#ifCond vettingRequest '==' "pending"}}
+                                                    <span class="support_tag" style="background-color:#FFA500;">marked as inappropriate | appeal pending</span>
+                                                    {{/ifCond}}
+                                                    {{#ifCond vettingRequest '==' "rejected"}}
+                                                    <span class="support_tag" style="background-color:red;">marked as inappropriate | appeal rejected</span>
+                                                    {{/ifCond}}
+                                                {{/if}}
+                                            {{/ifCond}}
                                         </h4>
                                         <p>{{timestamp}}</p>
                                     </div>
