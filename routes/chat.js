@@ -33,7 +33,7 @@ router.post('/autocomplete', async (req, res) => {
     const options = {
         method: 'POST',
         url: 'https://api.emojidata.ai/predict',
-        params: {api_key: '1atc3-xQbyPcNa3-JaYw', depth: req.body.depth, searchText: req.body.searchText, ts: req.body.ts, fanOut: '2', 'end_user_id': 'woofy_dev_user', 'personal_dict': ["cat","dearly"]},
+        params: {api_key: 'loldu-Wd32rGGAkW9Hzw', depth: req.body.depth, searchText: req.body.searchText, ts: req.body.ts, fanOut: '2', 'end_user_id': 'woofy_dev_user', 'personal_dict': ["cat","dearly"]},
     };
 
     axios.request(options).then(function (response) {
